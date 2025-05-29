@@ -1,10 +1,8 @@
 # baby-first-words
 
-このプロジェクトは、BicepテンプレートとAzure Developer CLIを使用してAzureリソースをプロビジョニングし、検証するためのサンプルプロジェクトです。
-
 ## 前提条件
 
-- GitHub Codespaces または適切な開発環境
+- GitHub Codespaces またはVisual Studio Codeなどdevcontainerを利用できる環境
 - Azureサブスクリプション
 
 ## セットアップ
@@ -15,7 +13,7 @@
 
 - Azure CLI
 - Azure Developer CLI (azd)
-- Bicep CLI
+- Azure CLI（Bicep拡張機能付き）
 - VS Code拡張機能（Bicep、Azure Developer CLI）
 
 ### ローカル開発

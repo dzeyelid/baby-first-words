@@ -1,5 +1,5 @@
 # Bicep compiled files
-*.json
+infra/*.json
 
 # Azure Developer CLI
 .azure/
