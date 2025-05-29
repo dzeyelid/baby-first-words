@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Azure/azure-dev/main/schemas/v1.0/azure.yaml.json
+
+name: baby-first-words
+metadata:
+  template: baby-first-words@0.0.1-beta
+services:
+  api:
+    project: ./api
+    language: js
+    host: function
+  web:
+    project: ./src
+    language: js
+    host: staticwebapp
