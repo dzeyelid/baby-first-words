@@ -1,1 +1,74 @@
 # baby-first-words
+
+このプロジェクトは、BicepテンプレートとAzure Developer CLIを使用してAzureリソースをプロビジョニングし、検証するためのサンプルプロジェクトです。
+
+## 前提条件
+
+- GitHub Codespaces または適切な開発環境
+- Azureサブスクリプション
+
+## セットアップ
+
+### GitHub Codespacesでの開発
+
+このリポジトリはGitHub Codespacesに最適化されています。Codespacesを起動すると、以下のツールが自動的にインストールされます：
+
+- Azure CLI
+- Azure Developer CLI (azd)
+- Bicep CLI
+- VS Code拡張機能（Bicep、Azure Developer CLI）
+
+### ローカル開発
+
+ローカルで開発する場合は、以下のツールをインストールしてください：
+
+1. [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli)
+2. [Azure Developer CLI](https://docs.microsoft.com/azure/developer/azure-developer-cli/install-azd)
+3. [Bicep CLI](https://docs.microsoft.com/azure/azure-resource-manager/bicep/install)
+
+## 使用方法
+
+### 1. Azureにログイン
+
+```bash
+az login
+azd auth login
+```
+
+### 2. プロジェクトの初期化
+
+```bash
+azd init
+```
+
+### 3. リソースのデプロイ
+
+```bash
+azd up
+```
+
+### 4. リソースの削除
+
+```bash
+azd down
+```
+
+## インフラストラクチャ
+
+`infra/` ディレクトリには以下のBicepテンプレートが含まれています：
+
+- `main.bicep` - メインのデプロイメントテンプレート（サブスクリプションスコープ）
+- `resources.bicep` - リソースグループスコープのリソース定義
+- `storage.bicep` - ストレージアカウントの定義
+
+## 検証
+
+デプロイ後、以下のコマンドでリソースが正常に作成されているか確認できます：
+
+```bash
+# リソースグループの確認
+az group show --name rg-baby-first-words
+
+# ストレージアカウントの確認
+az storage account list --resource-group rg-baby-first-words
+```

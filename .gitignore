@@ -1,0 +1,19 @@
+# Bicep compiled files
+*.json
+
+# Azure Developer CLI
+.azure/
+
+# Node modules
+node_modules/
+
+# Environment files
+.env
+.env.local
+
+# VS Code
+.vscode/settings.json
+
+# OS generated files
+.DS_Store
+Thumbs.db
