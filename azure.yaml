@@ -1,0 +1,8 @@
+name: baby-first-words
+metadata:
+  template: baby-first-words@0.0.1-beta
+services:
+  api:
+    project: ./
+    language: bicep
+    host: containerapp
