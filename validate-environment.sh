@@ -29,6 +29,7 @@ if command -v bicep &> /dev/null; then
     bicep --version
 else
     echo "❌ Bicep CLI is not available"
+    echo "Please run the setup script or install manually with: az bicep install"
     exit 1
 fi
 

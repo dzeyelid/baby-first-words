@@ -33,19 +33,27 @@ az login
 azd auth login
 ```
 
-### 2. プロジェクトの初期化
+### 2. ロケーションの設定
+
+Azureリソースのデプロイ先リージョン（location）を設定します。例として日本東（japaneast）を指定します。
+
+```bash
+azd env set AZURE_LOCATION japaneast
+```
+
+### 3. プロジェクトの初期化
 
 ```bash
 azd init
 ```
 
-### 3. リソースのデプロイ
+### 4. リソースのデプロイ
 
 ```bash
 azd up
 ```
 
-### 4. リソースの削除
+### 5. リソースの削除
 
 ```bash
 azd down
