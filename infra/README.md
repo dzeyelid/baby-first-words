@@ -1,169 +1,169 @@
-# Infrastructure
+# インフラストラクチャ
 
-This directory contains the Azure Bicep templates for deploying the baby-first-words application infrastructure.
+このディレクトリには、baby-first-wordsアプリケーションのインフラストラクチャをデプロイするためのAzure Bicepテンプレートが含まれています。
 
-## Architecture
+## アーキテクチャ
 
-The infrastructure consists of three main Azure services:
+インフラストラクチャは3つの主要なAzureサービスで構成されています：
 
-1. **Azure Cosmos DB** - NoSQL database for storing baby words data
-2. **Azure Functions** - TypeScript-based serverless API
-3. **Azure Static Web Apps** - Frontend hosting with CDN
+1. **Azure Cosmos DB** - 赤ちゃんの言葉データを保存するNoSQLデータベース
+2. **Azure Functions** - TypeScriptベースのサーバーレスAPI
+3. **Azure Static Web Apps** - CDNを備えたフロントエンドホスティング
 
-## Resources Created
+## 作成されるリソース
 
 ### Azure Cosmos DB
-- Cosmos DB account with serverless billing model
-- Database: `BabyFirstWords`
-- Container: `Words` with partition key `/wordId`
-- Optimized indexing policy for word queries
-- 30-day backup retention
+- サーバーレス課金モデルのCosmos DBアカウント
+- データベース: `BabyFirstWords`
+- コンテナ: `Words`（パーティションキー `/wordId`）
+- 単語クエリ用に最適化されたインデックスポリシー
+- 30日間のバックアップ保持
 
 ### Azure Functions
-- Function App with Node.js 18 runtime
-- Consumption plan for cost optimization
-- System-assigned managed identity for secure Cosmos DB access
-- Application Insights for monitoring and logging
-- Log Analytics workspace for centralized logging
-- Storage account for function runtime
+- Node.js 18ランタイムのFunction App
+- コスト最適化のための従量課金プラン
+- Cosmos DBへのセキュアアクセスのためのシステム割り当てマネージドID
+- 監視とログ記録のためのApplication Insights
+- 一元化されたログ記録のためのLog Analyticsワークスペース
+- Function実行時のためのストレージアカウント
 
 ### Azure Static Web Apps
-- Static web hosting with global CDN
-- Integration with Azure Functions as API backend
-- Free tier suitable for development
-- Support for staging environments
+- グローバルCDNを備えた静的Webホスティング
+- APIバックエンドとしてのAzure Functionsとの統合
+- 開発に適した無料ティア
+- ステージング環境のサポート
 
-## Deployment
+## デプロイ
 
-### Prerequisites
+### 前提条件
 
-1. Azure CLI installed and logged in
-2. Azure subscription with appropriate permissions
-3. Resource group created
+1. Azure CLIがインストールされ、ログインしていること
+2. 適切な権限を持つAzureサブスクリプション
+3. リソースグループが作成されていること
 
-### Deploy with Azure CLI
+### Azure CLIでのデプロイ
 
 ```bash
-# Create resource group (if not exists)
+# リソースグループを作成（存在しない場合）
 az group create --name rg-baby-first-words-dev --location japaneast
 
-# Deploy the infrastructure
+# インフラストラクチャをデプロイ
 az deployment group create \
   --resource-group rg-baby-first-words-dev \
   --template-file infra/main.bicep \
   --parameters @infra/parameters/dev.json
 ```
 
-### Deploy with Azure Developer CLI (azd)
+### Azure Developer CLI (azd)でのデプロイ
 
-This template is compatible with Azure Developer CLI:
+このテンプレートはAzure Developer CLIと互換性があります：
 
 ```bash
-# Initialize (if using azd)
+# 初期化（azdを使用する場合）
 azd init
 
-# Deploy
+# デプロイ
 azd up
 ```
 
-## Configuration
+## 設定
 
-### Parameters
+### パラメータ
 
-The deployment can be customized using parameters:
+デプロイはパラメータを使用してカスタマイズできます：
 
-- `environmentName`: Environment suffix (dev, prod, etc.)
-- `location`: Azure region for resources
-- `appName`: Application name prefix
-- `cosmosDbDatabaseName`: Cosmos DB database name
-- `cosmosDbContainerName`: Cosmos DB container name
+- `environmentName`: 環境サフィックス（dev、prodなど）
+- `location`: リソースのAzureリージョン
+- `appName`: アプリケーション名のプレフィックス
+- `cosmosDbDatabaseName`: Cosmos DBデータベース名
+- `cosmosDbContainerName`: Cosmos DBコンテナ名
 
-### Environment-specific Parameters
+### 環境固有のパラメータ
 
-- `infra/parameters/dev.json` - Development environment
-- `infra/parameters/prod.json` - Production environment
+- `infra/parameters/dev.json` - 開発環境
+- `infra/parameters/prod.json` - 本番環境
 
-## Security
+## セキュリティ
 
-### Managed Identity
+### マネージドID
 
-The Function App uses system-assigned managed identity to access Cosmos DB, eliminating the need for connection strings or keys in application settings.
+Function Appはシステム割り当てマネージドIDを使用してCosmos DBにアクセスし、アプリケーション設定での接続文字列やキーの必要性を排除します。
 
-### Role Assignments
+### ロール割り当て
 
-- Function App managed identity has **Cosmos DB Data Contributor** role on the Cosmos DB account
-- This allows read/write access to Cosmos DB data
+- Function AppマネージドIDはCosmos DBアカウントに対して**Cosmos DB Data Contributor**ロールを持ちます
+- これによりCosmos DBデータへの読み取り/書き込みアクセスが可能になります
 
-### Network Security
+### ネットワークセキュリティ
 
-- All resources are configured with HTTPS only
-- Minimum TLS version 1.2
-- Storage accounts have public blob access disabled
-- FTP access is disabled on Function Apps
+- すべてのリソースがHTTPS必須で構成されています
+- 最小TLSバージョン1.2
+- ストレージアカウントのパブリックBlobアクセスが無効化されています
+- Function AppでFTPアクセスが無効化されています
 
-## Monitoring
+## 監視
 
 ### Application Insights
 
-- Automatic telemetry collection for Function App
-- Custom metrics and logging available
-- 90-day data retention
+- Function Appの自動テレメトリ収集
+- カスタムメトリクスとログ記録が利用可能
+- 90日間のデータ保持
 
 ### Log Analytics
 
-- Centralized logging for all resources
-- 30-day retention for cost optimization
-- Query capabilities for troubleshooting
+- すべてのリソースの一元化されたログ記録
+- コスト最適化のための30日間保持
+- トラブルシューティングのためのクエリ機能
 
-## Cost Optimization
+## コスト最適化
 
-### Development Environment
+### 開発環境
 
-- Cosmos DB: Serverless billing (pay per request)
-- Functions: Consumption plan (pay per execution)
-- Static Web Apps: Free tier
-- Storage: Standard LRS (cheapest redundancy)
+- Cosmos DB: サーバーレス課金（リクエスト毎の課金）
+- Functions: 従量課金プラン（実行毎の課金）
+- Static Web Apps: 無料ティア
+- Storage: Standard LRS（最も安価な冗長化）
 
-### Production Considerations
+### 本番環境での考慮事項
 
-For production deployments, consider:
+本番デプロイでは、以下を検討してください：
 
-- Cosmos DB: Reserved capacity for predictable workloads
-- Functions: Premium plan for better performance
-- Static Web Apps: Standard tier for custom domains
-- Storage: Geo-redundant storage for disaster recovery
+- Cosmos DB: 予測可能なワークロード用の予約容量
+- Functions: より良いパフォーマンスのためのPremiumプラン
+- Static Web Apps: カスタムドメイン用のStandardティア
+- Storage: 災害復旧のための地理冗長ストレージ
 
-## Outputs
+## 出力
 
-After deployment, the template provides these outputs:
+デプロイ後、テンプレートは以下の出力を提供します：
 
-- `cosmosDbAccountName`: Cosmos DB account name
-- `cosmosDbEndpoint`: Cosmos DB endpoint URL
-- `functionAppName`: Function App name
-- `functionAppHostname`: Function App default hostname
-- `staticWebAppName`: Static Web App name
-- `staticWebAppHostname`: Static Web App default hostname
+- `cosmosDbAccountName`: Cosmos DBアカウント名
+- `cosmosDbEndpoint`: Cosmos DBエンドポイントURL
+- `functionAppName`: Function App名
+- `functionAppHostname`: Function Appのデフォルトホスト名
+- `staticWebAppName`: Static Web App名
+- `staticWebAppHostname`: Static Web Appのデフォルトホスト名
 
-## Troubleshooting
+## トラブルシューティング
 
-### Common Issues
+### よくある問題
 
-1. **Resource naming conflicts**: Ensure unique resource names by using different environment names
-2. **Role assignment delays**: Managed identity role assignments may take a few minutes to propagate
-3. **Static Web App regions**: Limited region availability, template uses East US 2
+1. **リソース名の競合**: 異なる環境名を使用して一意のリソース名を確保してください
+2. **ロール割り当ての遅延**: マネージドIDのロール割り当てが反映されるまで数分かかる場合があります
+3. **Static Web Appのリージョン**: 利用可能リージョンが限定されており、テンプレートではEast US 2を使用しています
 
-### Verification
+### 検証
 
-After deployment, verify:
+デプロイ後、以下を確認してください：
 
-1. Cosmos DB is accessible from Function App
-2. Function App managed identity has proper role assignments
-3. Static Web App can connect to Function App API
-4. Application Insights is collecting telemetry
+1. Function AppからCosmos DBにアクセス可能であること
+2. Function AppマネージドIDが適切なロール割り当てを持っていること
+3. Static Web AppがFunction App APIに接続できること
+4. Application Insightsがテレメトリを収集していること
 
-## Next Steps
+## 次のステップ
 
-1. Deploy your Function App code to the created Function App
-2. Deploy your frontend code to the Static Web App
-3. Configure custom domains (if needed)
-4. Set up CI/CD pipelines for automated deployments
+1. 作成されたFunction AppにFunction Appコードをデプロイ
+2. Static Web Appにフロントエンドコードをデプロイ
+3. カスタムドメインの設定（必要に応じて）
+4. 自動デプロイのためのCI/CDパイプラインの設定
