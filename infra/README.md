@@ -17,11 +17,11 @@
 - データベース: `BabyFirstWords`
 - コンテナ: `Words`（パーティションキー `/wordId`）
 - 単語クエリ用に最適化されたインデックスポリシー
-- 30日間のバックアップ保持
+- 7日間のバックアップ保持
 
 ### Azure Functions
-- Node.js 18ランタイムのFunction App
-- コスト最適化のための従量課金プラン
+- Node.js 20ランタイムのFunction App
+- コスト最適化のためのFlex従量課金プラン
 - Cosmos DBへのセキュアアクセスのためのシステム割り当てマネージドID
 - 監視とログ記録のためのApplication Insights
 - 一元化されたログ記録のためのLog Analyticsワークスペース
@@ -120,7 +120,7 @@ Function Appはシステム割り当てマネージドIDを使用してCosmos DB
 ### 開発環境
 
 - Cosmos DB: サーバーレス課金（リクエスト毎の課金）
-- Functions: 従量課金プラン（実行毎の課金）
+- Functions: Flex従量課金プラン（実行毎の課金）
 - Static Web Apps: 無料ティア
 - Storage: Standard LRS（最も安価な冗長化）
 

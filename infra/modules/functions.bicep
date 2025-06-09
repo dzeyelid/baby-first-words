@@ -26,7 +26,7 @@ param cosmosDbContainerName string
 param cosmosDbEndpoint string
 
 @description('Node.js version for the Function App')
-param nodeVersion string = '18'
+param nodeVersion string = '20'
 
 // Variables
 var hostingPlanName = 'plan-${functionAppName}'
@@ -89,14 +89,14 @@ resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2022-10
   }
 }
 
-// Hosting Plan (Consumption Plan for cost optimization)
+// Hosting Plan (Flex Consumption Plan for automatic scaling)
 resource hostingPlan 'Microsoft.Web/serverfarms@2023-01-01' = {
   name: hostingPlanName
   location: location
   tags: tags
   sku: {
-    name: 'Y1' // Consumption plan
-    tier: 'Dynamic'
+    name: 'FC1' // Flex Consumption plan
+    tier: 'FlexConsumption'
   }
   properties: {
     // Reserved for Linux
