@@ -5,6 +5,18 @@
 - GitHub Codespaces またはVisual Studio Codeなどdevcontainerを利用できる環境
 - Azureサブスクリプション
 
+## MCPサーバーテスト結果
+
+このリポジトリではMicrosoft Docs MCPサーバーを設定し、その機能をテストしました。詳細な結果は [`docs/mcp-server-test-results.md`](./docs/mcp-server-test-results.md) をご覧ください。
+
+**主要な成果:**
+- ✅ MCPサーバーが正常に動作確認済み
+- ✅ Azure/Bicep関連の質問に高品質で回答
+- ✅ 9つのテストケースすべてで優秀な結果
+- ✅ 総合評価: 95%
+
+GitHub Copilot Coding agentによるAzure開発支援が大幅に向上しています。
+
 ## セットアップ
 
 ### GitHub Codespacesでの開発
