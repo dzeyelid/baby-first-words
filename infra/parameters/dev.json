@@ -15,15 +15,15 @@
       "value": {
         "environment": "dev",
         "application": "baby-first-words",
-        "project": "baby-language-learning",
+        "project": "baby-first-words",
         "owner": "development-team"
       }
     },
     "cosmosDbDatabaseName": {
-      "value": "BabyFirstWords"
+      "value": "baby-first-words-db"
     },
     "cosmosDbContainerName": {
-      "value": "Words"
+      "value": "words-container"
     }
   }
 }

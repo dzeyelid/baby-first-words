@@ -24,12 +24,8 @@ param environmentName string = 'dev'
 @allowed([
   'japaneast'
   'japanwest'
-  'eastus'
-  'eastus2'
-  'westus2'
-  'centralus'
 ])
-param location string = resourceGroup().location
+param location string = 'japaneast'
 
 @description('Application name prefix')
 @minLength(3)
@@ -41,18 +37,18 @@ param tags object = {
   environment: environmentName
   application: appName
   deployedBy: 'azure-developer-cli'
-  project: 'baby-language-learning'
+  project: 'baby-first-words'
 }
 
 @description('Cosmos DB database name')
 @minLength(1)
 @maxLength(255)
-param cosmosDbDatabaseName string = 'BabyFirstWords'
+param cosmosDbDatabaseName string = 'baby-first-words-db'
 
 @description('Cosmos DB container name')
 @minLength(1)
 @maxLength(255)
-param cosmosDbContainerName string = 'Words'
+param cosmosDbContainerName string = 'words-container'
 
 @description('Enable monitoring and diagnostics')
 param enableMonitoring bool = true
@@ -63,7 +59,7 @@ param enableBackup bool = true
 // === VARIABLES ===
 var resourceSuffix = '${appName}-${environmentName}'
 var uniqueSuffix = substring(uniqueString(resourceGroup().id), 0, 6)
-var location_staticwebapp = 'eastus2' // Static Web Apps has limited region availability
+var location_staticwebapp = 'eastus2' // Static Web Apps has limited region availability, Japan regions not yet supported
 
 // === RESOURCES ===
 
