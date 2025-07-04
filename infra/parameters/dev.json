@@ -20,10 +20,10 @@
       }
     },
     "cosmosDbDatabaseName": {
-      "value": "baby-first-words-db"
+      "value": "cosdb-baby-first-words"
     },
     "cosmosDbContainerName": {
-      "value": "words-container"
+      "value": "cont-words"
     }
   }
 }

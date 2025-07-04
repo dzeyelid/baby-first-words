@@ -13,6 +13,7 @@
 - **[Azure Functions ベストプラクティス](https://learn.microsoft.com/ja-jp/azure/azure-functions/functions-best-practices)** - パフォーマンス、監視
 - **[Azure Cosmos DB ベストプラクティス](https://learn.microsoft.com/ja-jp/azure/cosmos-db/best-practice-performance)** - パフォーマンス、コスト最適化
 - **[Azure Static Web Apps ベストプラクティス](https://learn.microsoft.com/ja-jp/azure/static-web-apps/best-practices)** - セキュリティ、パフォーマンス
+- **[Azure リソース命名規則](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/resource-abbreviations)** - 標準的なリソース略語と命名規則
 
 ### 🎯 設計原則
 - **モジュール化**: 各Azureサービスが独立したBicepモジュールとして実装
@@ -33,8 +34,8 @@
 
 ### Azure Cosmos DB
 - サーバーレス課金モデルのCosmos DBアカウント
-- データベース: `baby-first-words-db`
-- コンテナ: `words-container`（パーティションキー `/wordId`）
+- データベース: `cosdb-baby-first-words`
+- コンテナ: `cont-words`（パーティションキー `/wordId`）
 - 単語クエリ用に最適化されたインデックスポリシー
 - 7日間のバックアップ保持（開発環境）
 - 一意性制約とコンポジットインデックス

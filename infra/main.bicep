@@ -43,12 +43,12 @@ param tags object = {
 @description('Cosmos DB database name')
 @minLength(1)
 @maxLength(255)
-param cosmosDbDatabaseName string = 'baby-first-words-db'
+param cosmosDbDatabaseName string = 'cosdb-baby-first-words'
 
 @description('Cosmos DB container name')
 @minLength(1)
 @maxLength(255)
-param cosmosDbContainerName string = 'words-container'
+param cosmosDbContainerName string = 'cont-words'
 
 @description('Enable monitoring and diagnostics')
 param enableMonitoring bool = true
