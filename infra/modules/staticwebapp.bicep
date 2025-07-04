@@ -1,10 +1,22 @@
 /*
   Azure Static Web Apps module for baby-first-words application
   Creates Static Web App with Functions integration
+  
+  References:
+  - Azure Static Web Apps Best Practices: https://learn.microsoft.com/en-us/azure/static-web-apps/best-practices
+  - Azure Static Web Apps Bicep: https://learn.microsoft.com/en-us/azure/templates/microsoft.web/staticsites
 */
 
-// Parameters
+targetScope = 'resourceGroup'
+
+// === METADATA ===
+metadata description = 'Azure Static Web Apps module for baby-first-words application'
+metadata version = '1.0.0'
+
+// === PARAMETERS ===
 @description('Static Web App name')
+@minLength(1)
+@maxLength(60)
 param staticWebAppName string
 
 @description('Location for the Static Web App')
@@ -12,6 +24,10 @@ param location string
 
 @description('Tags to apply to the Static Web App')
 param tags object
+
+@description('Environment name for configuration')
+@allowed(['dev', 'test', 'prod'])
+param environmentName string = 'dev'
 
 @description('Function App name for API integration')
 param functionAppName string
@@ -33,6 +49,26 @@ param repositoryBranch string = 'main'
 @secure()
 param repositoryToken string = ''
 
+@description('Enable staging environment')
+param enableStagingEnvironment bool = true
+
+@description('Enable enterprise-grade CDN')
+param enableEnterpriseGradeCdn bool = false
+
+// === VARIABLES ===
+var isProd = environmentName == 'prod'
+var buildProperties = {
+  skipGithubActionWorkflowGeneration: empty(repositoryUrl) ? true : false
+  appLocation: '/src/web' // Updated to match azure.yaml structure
+  apiLocation: '' // Empty since we're using separate Function App
+  outputLocation: '/dist' // Build output location
+  appBuildCommand: 'npm run build'
+  apiBuildCommand: ''
+  skipApi: true
+}
+
+// === RESOURCES ===
+
 // Static Web App
 resource staticWebApp 'Microsoft.Web/staticSites@2023-01-01' = {
   name: staticWebAppName
@@ -44,24 +80,21 @@ resource staticWebApp 'Microsoft.Web/staticSites@2023-01-01' = {
   }
   properties: {
     // Build properties for automatic deployment (when using GitHub integration)
-    buildProperties: {
-      skipGithubActionWorkflowGeneration: empty(repositoryUrl) ? true : false
-      appLocation: '/src' // Adjust based on your frontend source location
-      apiLocation: '' // Empty since we're using separate Function App
-      outputLocation: '/dist' // Adjust based on your build output location
-    }
+    buildProperties: buildProperties
     // Repository configuration (optional)
     repositoryUrl: repositoryUrl
     branch: repositoryBranch
     repositoryToken: repositoryToken
     // Staging environment policy
-    stagingEnvironmentPolicy: 'Enabled'
+    stagingEnvironmentPolicy: enableStagingEnvironment ? 'Enabled' : 'Disabled'
     // Allow configuration file updates
     allowConfigFileUpdates: true
-    // Note: contentDistributionPolicy is not available in this API version
-    // contentDistributionPolicy: 'Disabled'
     // Enterprise edge
-    enterpriseGradeCdnStatus: 'Disabled'
+    enterpriseGradeCdnStatus: enableEnterpriseGradeCdn ? 'Enabled' : 'Disabled'
+    // Provider for deployment
+    provider: empty(repositoryUrl) ? 'None' : 'GitHub'
+    // Public traffic policy
+    publicNetworkAccess: 'Enabled'
   }
 }
 
@@ -88,7 +121,31 @@ resource staticWebAppConfig 'Microsoft.Web/staticSites/config@2023-01-01' = {
     // API endpoint configuration
     API_ENDPOINT: 'https://${functionApp.properties.defaultHostName}'
     // Environment specific settings
-    ENVIRONMENT: 'production'
+    ENVIRONMENT: environmentName
+    NODE_ENV: isProd ? 'production' : 'development'
+    // Version information
+    APP_VERSION: '1.0.0'
+    // Feature flags
+    ENABLE_ANALYTICS: toUpper(string(isProd))
+    ENABLE_DEBUG: toUpper(string(!isProd))
+    // CORS settings
+    CORS_ALLOW_ORIGIN: '*'
+    CORS_ALLOW_METHODS: 'GET,POST,PUT,DELETE,OPTIONS'
+    CORS_ALLOW_HEADERS: 'Content-Type,Authorization,X-Requested-With'
+  }
+}
+
+// Function configuration for routing
+resource staticWebAppFunctionConfig 'Microsoft.Web/staticSites/config@2023-01-01' = {
+  parent: staticWebApp
+  name: 'functionappsettings'
+  properties: {
+    // Function App integration settings
+    FUNCTION_APP_ENDPOINT: 'https://${functionApp.properties.defaultHostName}'
+    FUNCTION_APP_NAME: functionAppName
+    // Authentication settings
+    AUTH_ENABLED: 'false' // Set to true if authentication is required
+    AUTH_PROVIDER: 'github' // Example: github, aad, twitter, etc.
   }
 }
 
@@ -104,7 +161,7 @@ resource customDomain 'Microsoft.Web/staticSites/customDomains@2023-01-01' = {
 }
 */
 
-// Outputs
+// === OUTPUTS ===
 @description('Static Web App name')
 output staticWebAppName string = staticWebApp.name
 
@@ -119,7 +176,14 @@ output repositoryUrl string = staticWebApp.properties.repositoryUrl
 
 @description('Static Web App deployment token (sensitive)')
 @secure()
+output deploymentToken string = staticWebApp.listSecrets().properties.apiKey
+
+@description('Static Web App API key (sensitive)')
+@secure()
 output apiKey string = staticWebApp.listSecrets().properties.apiKey
 
 @description('Static Web App custom domains')
 output customDomains array = staticWebApp.properties.customDomains
+
+@description('Static Web App linked backend ID')
+output linkedBackendId string = linkedBackend.id
