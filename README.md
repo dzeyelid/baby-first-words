@@ -97,6 +97,14 @@ azd down
 ./validate-environment.sh
 ```
 
+### MCP 統合の検証
+
+Microsoft Docs MCP Server の統合が正しく設定されているか確認できます：
+
+```bash
+./test-mcp-integration.sh
+```
+
 ### デプロイ後の検証
 
 デプロイ後、以下のコマンドでリソースが正常に作成されているか確認できます：
@@ -108,3 +116,14 @@ az group show --name rg-baby-first-words
 # ストレージアカウントの確認
 az storage account list --resource-group rg-baby-first-words
 ```
+
+## 追加されたファイル
+
+MCP統合に関連して、以下のファイルが追加されています：
+
+- `.vscode/settings.json` - VS Code用のMCP設定
+- `.devcontainer/setup-mcp.sh` - MCP自動セットアップスクリプト
+- `baby-first-words.code-workspace` - ワークスペース設定
+- `docs/mcp-integration.md` - MCP統合の詳細ドキュメント
+- `docs/mcp-demo.md` - MCP統合のデモとテスト用クエリ
+- `test-mcp-integration.sh` - MCP統合テストスクリプト
