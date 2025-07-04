@@ -19,4 +19,8 @@ if [[ ":$PATH:" != *":$HOME/.azure/bin:"* ]]; then
     echo "Added ~/.azure/bin to PATH in ~/.bashrc"
 fi
 
+# Install MCP server dependencies
+echo "Installing MCP server dependencies..."
+npm install
+
 echo "Setup completed successfully!"

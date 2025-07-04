@@ -1,0 +1,24 @@
+{
+  "name": "baby-first-words-mcp-server",
+  "version": "1.0.0",
+  "description": "MCP server for baby first words tracking and Azure resource management",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "node --test test/*.js"
+  },
+  "keywords": ["mcp", "server", "baby", "first-words", "azure"],
+  "author": "baby-first-words project",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^0.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "baby-first-words": {
+      "command": "node",
+      "args": ["src/index.js"],
+      "cwd": "/home/runner/work/baby-first-words/baby-first-words",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    }
+  }
+}
