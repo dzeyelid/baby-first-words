@@ -27,6 +27,13 @@ GitHub Copilot Coding agentによるAzure開発支援が大幅に向上してい
 - Azure Developer CLI (azd)
 - Azure CLI（Bicep拡張機能付き）
 - VS Code拡張機能（Bicep、Azure Developer CLI）
+- GitHub Copilot（Microsoft Docs MCP Server統合付き）
+
+### Microsoft Docs MCP Server統合
+
+このプロジェクトには、GitHub Copilot Coding Agentに[Microsoft Docs MCP Server](https://github.com/MicrosoftDocs/mcp)が統合されています。これにより、Copilotが公式のMicrosoft ドキュメントにリアルタイムでアクセスできるようになります。
+
+詳細は[MCP統合ドキュメント](docs/mcp-integration.md)を参照してください。
 
 ### ローカル開発
 
@@ -35,6 +42,7 @@ GitHub Copilot Coding agentによるAzure開発支援が大幅に向上してい
 1. [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli)
 2. [Azure Developer CLI](https://docs.microsoft.com/azure/developer/azure-developer-cli/install-azd)
 3. [Bicep CLI](https://docs.microsoft.com/azure/azure-resource-manager/bicep/install)
+4. [VS Code](https://code.visualstudio.com/) with GitHub Copilot extension
 
 ## 使用方法
 

@@ -1,0 +1,29 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "mcp.servers": {
+      "microsoft.docs.mcp": {
+        "type": "http",
+        "url": "https://learn.microsoft.com/api/mcp",
+        "name": "Microsoft Learn Docs MCP Server",
+        "description": "Access to official Microsoft documentation through MCP"
+      }
+    },
+    "copilot.enable": true,
+    "copilot.suggestions.enabled": true,
+    "copilot.chat.enabled": true
+  },
+  "extensions": {
+    "recommendations": [
+      "ms-azuretools.vscode-bicep",
+      "ms-vscode.azure-account",
+      "ms-azuretools.azure-dev",
+      "github.copilot",
+      "github.copilot-chat"
+    ]
+  }
+}

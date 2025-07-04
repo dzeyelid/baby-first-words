@@ -1,0 +1,10 @@
+{
+  "mcp.servers": {
+    "microsoft.docs.mcp": {
+      "type": "http",
+      "url": "https://learn.microsoft.com/api/mcp",
+      "name": "Microsoft Learn Docs MCP Server",
+      "description": "Access to official Microsoft documentation through MCP"
+    }
+  }
+}

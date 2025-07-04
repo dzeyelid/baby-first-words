@@ -11,8 +11,8 @@ node_modules/
 .env
 .env.local
 
-# VS Code
-.vscode/settings.json
+# VS Code (exclude personal settings but keep MCP configuration)
+.vscode/settings.json.user
 
 # OS generated files
 .DS_Store
