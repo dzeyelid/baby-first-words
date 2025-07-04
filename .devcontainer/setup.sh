@@ -19,8 +19,4 @@ if [[ ":$PATH:" != *":$HOME/.azure/bin:"* ]]; then
     echo "Added ~/.azure/bin to PATH in ~/.bashrc"
 fi
 
-# Setup Microsoft Docs MCP Server integration
-echo "Setting up Microsoft Docs MCP Server integration..."
-./.devcontainer/setup-mcp.sh
-
 echo "Setup completed successfully!"

@@ -101,9 +101,7 @@ azd down
 
 Microsoft Docs MCP Server の統合が正しく設定されているか確認できます：
 
-```bash
-./test-mcp-integration.sh
-```
+VS Code で `.vscode/mcp.json` ファイルに正しい設定が含まれていることを確認してください。
 
 ### デプロイ後の検証
 
@@ -121,9 +119,6 @@ az storage account list --resource-group rg-baby-first-words
 
 MCP統合に関連して、以下のファイルが追加されています：
 
-- `.vscode/settings.json` - VS Code用のMCP設定
-- `.devcontainer/setup-mcp.sh` - MCP自動セットアップスクリプト
-- `baby-first-words.code-workspace` - ワークスペース設定
+- `.vscode/mcp.json` - VS Code用のMCP設定
 - `docs/mcp-integration.md` - MCP統合の詳細ドキュメント
 - `docs/mcp-demo.md` - MCP統合のデモとテスト用クエリ
-- `test-mcp-integration.sh` - MCP統合テストスクリプト

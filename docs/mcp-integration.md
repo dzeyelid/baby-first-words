@@ -9,16 +9,11 @@ Microsoft Docs MCP Server は、Model Context Protocol (MCP) を実装したク�
 ## 統合内容
 
 ### 1. VS Code 設定
-- `.vscode/settings.json` に MCP サーバー設定を追加
+- `.vscode/mcp.json` に MCP サーバー設定を追加
 - Microsoft Docs MCP Server エンドポイント: `https://learn.microsoft.com/api/mcp`
 
 ### 2. devcontainer 設定
 - GitHub Copilot と Copilot Chat 拡張機能を追加
-- MCP セットアップスクリプトを自動実行
-
-### 3. 自動セットアップ
-- `.devcontainer/setup-mcp.sh` で MCP 設定を自動化
-- 環境検証とエンドポイント確認
 
 ## 使用方法
 
@@ -51,9 +46,7 @@ GitHub Codespaces または VS Code の devcontainer で環境を起動します
 ```
 
 ### 2. MCP 設定確認
-```bash
-./.devcontainer/setup-mcp.sh
-```
+VS Code で `.vscode/mcp.json` ファイルに MCP サーバー設定が含まれていることを確認します。
 
 ### 3. 手動テスト
 1. VS Code で GitHub Copilot を開く
