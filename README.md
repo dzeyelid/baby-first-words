@@ -1,7 +1,5 @@
 # baby-first-words
 
-# baby-first-words
-
 ## 前提条件
 
 - GitHub Codespaces またはVisual Studio Codeなどdevcontainerを利用できる環境
@@ -9,7 +7,7 @@
 
 ## MCPサーバーテスト結果
 
-このリポジトリではMicrosoft Docs MCPサーバーを設定し、その機能をテストしました。詳細な結果は [`mcp-server-test-results.md`](./mcp-server-test-results.md) をご覧ください。
+このリポジトリではMicrosoft Docs MCPサーバーを設定し、その機能をテストしました。詳細な結果は [`docs/mcp-server-test-results.md`](./docs/mcp-server-test-results.md) をご覧ください。
 
 **主要な成果:**
 - ✅ MCPサーバーが正常に動作確認済み
