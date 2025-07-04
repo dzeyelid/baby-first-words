@@ -43,12 +43,12 @@ param tags object = {
 @description('Cosmos DB database name')
 @minLength(1)
 @maxLength(255)
-param cosmosDbDatabaseName string = 'cosdb-baby-first-words'
+param cosmosDbDatabaseName string = 'cosmos-baby-first-words'
 
 @description('Cosmos DB container name')
 @minLength(1)
 @maxLength(255)
-param cosmosDbContainerName string = 'cont-words'
+param cosmosDbContainerName string = 'words'
 
 @description('Enable monitoring and diagnostics')
 param enableMonitoring bool = true
@@ -67,7 +67,7 @@ var location_staticwebapp = 'eastus2' // Static Web Apps has limited region avai
 module cosmosDb 'modules/cosmosdb.bicep' = {
   name: 'cosmosdb-deployment-${uniqueSuffix}'
   params: {
-    accountName: 'cosmos-${resourceSuffix}-${uniqueSuffix}'
+    accountName: 'cosno-${resourceSuffix}-${uniqueSuffix}'
     location: location
     tags: tags
     databaseName: cosmosDbDatabaseName

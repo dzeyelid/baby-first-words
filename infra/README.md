@@ -34,8 +34,8 @@
 
 ### Azure Cosmos DB
 - サーバーレス課金モデルのCosmos DBアカウント
-- データベース: `cosdb-baby-first-words`
-- コンテナ: `cont-words`（パーティションキー `/wordId`）
+- データベース: `cosmos-baby-first-words`
+- コンテナ: `words`（パーティションキー `/wordId`）
 - 単語クエリ用に最適化されたインデックスポリシー
 - 7日間のバックアップ保持（開発環境）
 - 一意性制約とコンポジットインデックス
