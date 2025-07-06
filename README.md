@@ -97,11 +97,62 @@ azd down
 ./validate-environment.sh
 ```
 
-### MCP 統合の検証
+このスクリプトは以下を検証します：
+- Azure CLI の利用可能性
+- Azure Developer CLI の利用可能性（MCP統合には必須ではありません）
+- Bicep CLI の利用可能性
+- Bicep テンプレートの妥当性
+- MCP設定の確認（.vscode/mcp.json）
+- 環境変数の確認
+- VS Code拡張機能の設定確認
 
-Microsoft Docs MCP Server の統合が正しく設定されているか確認できます：
+### MCP統合の包括的テスト
+
+MCP統合の詳細なテストを実行するには：
+
+```bash
+./test-mcp-integration.sh
+```
+
+このスクリプトは以下の包括的なテストを実行します：
+- MCP設定ファイルの存在確認
+- JSON設定の妥当性検証
+- 環境変数の確認
+- MCP機能フラグの確認
+- MCPサーバーURLの形式確認
+- VS Code拡張機能の設定確認
+- ドキュメントの完全性確認
+- 設定スキーマの検証
+
+### インタラクティブなMCPテスト
+
+対話的なMCPテストとデモには：
+
+```bash
+./mcp-demo.sh
+```
+
+このスクリプトは以下の機能を提供します：
+- 基本的なMCP設定確認
+- 包括的なMCPテストの実行
+- MCPテストクエリの表示
+- MCP設定の詳細表示
+- 環境変数の確認
+- MCPテスト結果の生成
+
+### 手動テスト
 
 VS Code で `.vscode/mcp.json` ファイルに正しい設定が含まれていることを確認してください。
+
+GitHub Copilot Chat で以下のようなクエリを試して、MCP統合が正しく動作することを確認できます：
+
+```
+Azure Bicepとは何ですか？主な特徴と利点を教えてください。
+```
+
+```
+Azure Container Appを作成するBicepテンプレートを教えてください。
+```
 
 ### デプロイ後の検証
 
