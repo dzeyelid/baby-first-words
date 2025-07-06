@@ -57,3 +57,21 @@ else
 fi
 
 echo "🎉 All validations passed! The environment is ready for Azure development."
+
+# Validate MCP integration
+echo ""
+echo "🔍 Validating MCP integration..."
+if [ -f ".vscode/mcp.json" ]; then
+    echo "✅ VS Code MCP configuration file exists"
+    if grep -q "microsoft.docs.mcp" ".vscode/mcp.json"; then
+        echo "✅ Microsoft Docs MCP server configuration found"
+    else
+        echo "❌ Microsoft Docs MCP server configuration not found"
+    fi
+else
+    echo "❌ VS Code MCP configuration file not found"
+fi
+
+echo ""
+echo "🌟 Environment validation complete!"
+echo "📚 For MCP integration details, see: docs/mcp-integration.md"

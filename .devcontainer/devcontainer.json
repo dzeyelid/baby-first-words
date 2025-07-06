@@ -1,8 +1,9 @@
 {
   "name": "Azure Development Environment",
-  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "image": "mcr.microsoft.com/devcontainers/base:noble",
   "features": {
     "ghcr.io/devcontainers/features/azure-cli:1": {},
+    "ghcr.io/devcontainers/features/node:1": {},
     "ghcr.io/azure/azure-dev/azd:latest": {}
   },
   "postCreateCommand": ".devcontainer/setup.sh",
@@ -10,12 +11,12 @@
     "vscode": {
       "extensions": [
         "ms-azuretools.vscode-bicep",
-        "ms-vscode.azure-account",
-        "ms-azuretools.azure-dev"
+        "ms-azuretools.azure-dev",
+        "github.copilot",
+        "github.copilot-chat"
       ]
     }
   },
   "forwardPorts": [],
-  "portsAttributes": {},
-  "remoteUser": "codespace"
+  "portsAttributes": {}
 }
