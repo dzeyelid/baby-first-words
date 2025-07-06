@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Deployment script for baby-first-words infrastructure
-# Usage: ./deploy.sh [environment] [resource-group]
-# Example: ./deploy.sh dev rg-baby-first-words-dev
+# Usage: ./deploy.sh [environment] [resource-group] [location]
+# Example: ./deploy.sh dev rg-baby-first-words-dev japaneast
 
 set -e
 
@@ -10,11 +10,13 @@ set -e
 ENVIRONMENT=${1:-dev}
 RESOURCE_GROUP=${2:-rg-baby-first-words-${ENVIRONMENT}}
 LOCATION=${3:-japaneast}
+APP_NAME=${4:-baby-first-words}
 
 echo "🚀 Deploying baby-first-words infrastructure"
 echo "📍 Environment: $ENVIRONMENT"
 echo "📦 Resource Group: $RESOURCE_GROUP"
 echo "🌏 Location: $LOCATION"
+echo "📱 App Name: $APP_NAME"
 echo ""
 
 # Check if Azure CLI is installed
@@ -29,15 +31,6 @@ if ! az account show &> /dev/null; then
     exit 1
 fi
 
-# Check if parameter file exists
-PARAM_FILE="infra/parameters/${ENVIRONMENT}.json"
-if [ ! -f "$PARAM_FILE" ]; then
-    echo "❌ Parameter file not found: $PARAM_FILE"
-    echo "Available parameter files:"
-    ls -la infra/parameters/
-    exit 1
-fi
-
 # Create resource group if it doesn't exist
 echo "🏗️  Creating resource group (if not exists)..."
 az group create --name "$RESOURCE_GROUP" --location "$LOCATION" --output none
@@ -47,7 +40,7 @@ echo "✅ Validating Bicep template..."
 az deployment group validate \
     --resource-group "$RESOURCE_GROUP" \
     --template-file infra/main.bicep \
-    --parameters "@$PARAM_FILE" \
+    --parameters environmentName="$ENVIRONMENT" location="$LOCATION" appName="$APP_NAME" \
     --output none
 
 # Deploy the infrastructure
@@ -57,7 +50,7 @@ DEPLOYMENT_NAME="baby-first-words-$(date +%Y%m%d-%H%M%S)"
 az deployment group create \
     --resource-group "$RESOURCE_GROUP" \
     --template-file infra/main.bicep \
-    --parameters "@$PARAM_FILE" \
+    --parameters environmentName="$ENVIRONMENT" location="$LOCATION" appName="$APP_NAME" \
     --name "$DEPLOYMENT_NAME" \
     --output table
 

@@ -1,6 +1,5 @@
 # Build artifacts
 *.json
-!parameters/*.json
 
 # Bicep compilation output
 *.bicep.json
@@ -8,3 +7,7 @@
 # Temporary files
 *.tmp
 *.temp
+
+# Environment files (will be created by azd)
+.env
+.env.local

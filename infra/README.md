@@ -74,16 +74,20 @@ az group create --name rg-baby-first-words-dev --location japaneast
 az deployment group create \
   --resource-group rg-baby-first-words-dev \
   --template-file infra/main.bicep \
-  --parameters @infra/parameters/dev.json
+  --parameters environmentName=dev location=japaneast appName=baby-first-words
 ```
 
 ### Azure Developer CLI (azd)でのデプロイ
 
-このテンプレートはAzure Developer CLIと互換性があります：
+このテンプレートはAzure Developer CLIと互換性があります。環境固有の設定は`.env`ファイルで管理されます：
 
 ```bash
 # 初期化（azdを使用する場合）
 azd init
+
+# 環境設定（.envファイルで設定）
+azd env set AZURE_LOCATION japaneast
+azd env set AZURE_ENV_NAME dev
 
 # デプロイ
 azd up
@@ -96,11 +100,19 @@ azd up
 ./infra/deploy.sh dev rg-baby-first-words-dev
 ```
 
+注意: このスクリプトは従来のAzure CLI デプロイ用です。Azure Developer CLIを使用する場合は`azd up`コマンドを使用してください。
+
 ## ⚙️ 設定
 
 ### パラメータ
 
-デプロイはパラメータを使用してカスタマイズできます：
+Azure Developer CLIを使用する場合、以下の環境変数が使用されます：
+
+- `AZURE_ENV_NAME`: 環境名（dev、test、prod）
+- `AZURE_LOCATION`: リソースのAzureリージョン
+- `AZURE_SUBSCRIPTION_ID`: Azureサブスクリプション ID
+
+従来のAzure CLIを使用する場合は、以下のパラメータを指定できます：
 
 - `environmentName`: 環境サフィックス（dev、test、prod）
 - `location`: リソースのAzureリージョン
@@ -110,10 +122,18 @@ azd up
 - `enableMonitoring`: 監視機能の有効/無効
 - `enableBackup`: バックアップ機能の有効/無効
 
-### 環境固有のパラメータ
+### 環境固有の設定
 
-- `infra/parameters/dev.json` - 開発環境
-- `infra/parameters/prod.json` - 本番環境
+Azure Developer CLIを使用する場合、環境設定は`.env`ファイルで管理されます。
+
+例：
+```env
+AZURE_LOCATION=japaneast
+AZURE_ENV_NAME=dev
+AZURE_SUBSCRIPTION_ID=your-subscription-id
+```
+
+従来のAzure CLIを使用する場合は、コマンドラインパラメータで設定を指定できます。
 
 ## 🔒 セキュリティ
 
