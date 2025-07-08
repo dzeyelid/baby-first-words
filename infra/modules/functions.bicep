@@ -56,7 +56,7 @@ param enableDetailedLogging bool = true
 var hostingPlanName = 'plan-${functionAppName}'
 var storageAccountName = 'st${replace(functionAppName, '-', '')}${substring(uniqueString(resourceGroup().id), 0, 6)}'
 var applicationInsightsName = 'ai-${functionAppName}'
-var logAnalyticsWorkspaceName = 'law-${functionAppName}'
+var logAnalyticsWorkspaceName = 'log-${functionAppName}'
 var isProd = environmentName == 'prod'
 
 // === RESOURCES ===
