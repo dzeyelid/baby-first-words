@@ -77,44 +77,16 @@ resource cosmosDbAccount 'Microsoft.DocumentDB/databaseAccounts@2023-11-15' = {
         name: 'EnableServerless'
       }
     ]
-    consistencyPolicy: {
-      defaultConsistencyLevel: consistencyLevel
-      maxIntervalInSeconds: consistencyLevel == 'BoundedStaleness' ? 300 : null
-      maxStalenessPrefix: consistencyLevel == 'BoundedStaleness' ? 100000 : null
-    }
     locations: [
       {
         locationName: location
         failoverPriority: 0
-        isZoneRedundant: false
       }
     ]
     databaseAccountOfferType: 'Standard'
-    // Enable automatic failover
-    enableAutomaticFailover: false
-    // Enable multiple write locations for global distribution (disabled for serverless)
-    enableMultipleWriteLocations: false
-    // Enable analytical storage for reporting scenarios
-    enableAnalyticalStorage: false
-    // Network access restrictions
-    publicNetworkAccess: 'Enabled'
     networkAclBypass: 'AzureServices'
-    ipRules: []
-    virtualNetworkRules: []
-    // Security settings
     disableKeyBasedMetadataWriteAccess: true
-    disableLocalAuth: false // Set to true in production for enhanced security
-    // Backup policy
-    backupPolicy: enableBackup ? {
-      type: 'Periodic'
-      periodicModeProperties: {
-        backupIntervalInMinutes: backupIntervalInMinutes
-        backupRetentionIntervalInHours: backupRetentionIntervalInHours
-        backupStorageRedundancy: backupStorageRedundancy
-      }
-    } : null
-    // Enable free tier for development (only one account per subscription)
-    enableFreeTier: environmentName == 'dev' ? true : false
+    enableFreeTier: environmentName == 'dev'
   }
   identity: {
     type: 'SystemAssigned'
@@ -144,60 +116,6 @@ resource cosmosDbContainer 'Microsoft.DocumentDB/databaseAccounts/sqlDatabases/c
       partitionKey: {
         paths: [
           '/wordId'
-        ]
-        kind: 'Hash'
-        version: 2
-      }
-      // Indexing policy optimized for baby words queries
-      indexingPolicy: {
-        indexingMode: 'consistent'
-        automatic: true
-        includedPaths: [
-          {
-            path: '/*'
-            indexes: [
-              {
-                kind: 'Range'
-                dataType: 'String'
-                precision: -1
-              }
-              {
-                kind: 'Range'
-                dataType: 'Number'
-                precision: -1
-              }
-            ]
-          }
-        ]
-        excludedPaths: [
-          {
-            path: '/"_etag"/?'
-          }
-        ]
-        compositeIndexes: [
-          [
-            {
-              path: '/wordId'
-              order: 'ascending'
-            }
-            {
-              path: '/timestamp'
-              order: 'descending'
-            }
-          ]
-        ]
-      }
-      // Default TTL (time to live) - disabled by default
-      defaultTtl: -1
-      // Unique key policy for ensuring word uniqueness per baby
-      uniqueKeyPolicy: {
-        uniqueKeys: [
-          {
-            paths: [
-              '/wordId'
-              '/babyId'
-            ]
-          }
         ]
       }
     }
