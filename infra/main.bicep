@@ -115,9 +115,6 @@ output cosmosDbAccountName string = cosmosDb.outputs.accountName
 @description('Cosmos DB endpoint')
 output cosmosDbEndpoint string = cosmosDb.outputs.endpoint
 
-@description('Cosmos DB connection string (for development only)')
-output cosmosDbConnectionString string = cosmosDb.outputs.connectionString
-
 @description('Function App name')
 output functionAppName string = functions.outputs.functionAppName
 
