@@ -58,7 +58,7 @@ az login
 azd auth login
 azd init
 azd env set AZURE_LOCATION eastasia
-# （任意）リソースグループ名を指定したい場合は以下も設定可能
+# （任意）リソース グループ名を指定したい場合は以下も設定可能。リソース グループは存在している必要がある。
 # azd env set AZURE_RESOURCE_GROUP rg-baby-first-words-dev
 azd up
 ```
