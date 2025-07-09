@@ -53,9 +53,6 @@ param cosmosDbContainerName string = 'words'
 @description('Enable monitoring and diagnostics')
 param enableMonitoring bool = true
 
-@description('Enable backup for Cosmos DB')
-param enableBackup bool = true
-
 // === VARIABLES ===
 var resourceSuffix = '${appName}-${environmentName}'
 var uniqueSuffix = substring(uniqueString(resourceGroup().id), 0, 6)
@@ -97,7 +94,6 @@ module staticWebApp 'modules/staticwebapp.bicep' = {
   params: {
     staticWebAppName: 'swa-${resourceSuffix}-${uniqueSuffix}'
     tags: tags
-    functionAppName: functions.outputs.functionAppName
     environmentName: environmentName
   }
 }
@@ -126,10 +122,6 @@ output staticWebAppName string = staticWebApp.outputs.staticWebAppName
 
 @description('Static Web App default hostname')
 output staticWebAppHostname string = staticWebApp.outputs.defaultHostname
-
-@description('Static Web App deployment token')
-@secure()
-output staticWebAppDeploymentToken string = staticWebApp.outputs.deploymentToken
 
 @description('Application Insights connection string')
 output applicationInsightsConnectionString string = functions.outputs.applicationInsightsConnectionString
