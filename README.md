@@ -50,21 +50,17 @@ GitHub Copilot Coding agentによるAzure開発支援が大幅に向上してい
 ### 推奨デプロイ手順（Azure Developer CLI）
 
 1. Azureにログイン
-2. Flex Consumptionプラン利用時は `eastasia`（香港）リージョンを指定
-3. プロジェクト初期化・環境設定・デプロイ
+2. プロジェクト初期化・環境設定・デプロイ
 
 ```bash
 az login
 azd auth login
 azd init
-azd env set AZURE_LOCATION eastasia
+azd env set AZURE_LOCATION japaneast
 # （任意）リソース グループ名を指定したい場合は以下も設定可能。リソース グループは存在している必要がある。
 # azd env set AZURE_RESOURCE_GROUP rg-baby-first-words-dev
 azd up
 ```
-
-> ⚠️ **注意:** Flex Consumptionプランは2025年7月時点で日本リージョン（japaneast/japanwest）では利用できません。東日本から利用する場合、地理的・ネットワーク的に最も近い `eastasia`（香港）が推奨です。
-> 参考: [公式ドキュメント: Flex Consumption Supported Regions (English)](https://learn.microsoft.com/azure/azure-functions/flex-consumption-how-to#view-currently-supported-regions)
 
 従来の Consumption/Premium プランや詳細なパラメータ・CLI/スクリプトによる運用方法は [infra/README.md](infra/README.md) を参照してください。
 

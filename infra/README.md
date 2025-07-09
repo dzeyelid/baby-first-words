@@ -42,7 +42,8 @@
 
 ### Azure Functions
 - Node.js 20ランタイムのFunction App
-- コスト最適化のためのFlex従量課金プラン
+- コスト最適化のための従量課金プラン
+- Japan East（japaneast）リージョンに配置
 - Cosmos DBへのセキュアアクセスのためのシステム割り当てマネージドID
 - 監視とログ記録のためのApplication Insights
 - 一元化されたログ記録のためのLog Analyticsワークスペース
@@ -55,6 +56,7 @@
 - 開発に適した無料ティア
 - ステージング環境のサポート
 - 構成可能なCORSとルーティング設定
+- East Asia（eastasia）リージョンに配置（CDNによりグローバル配信）
 
 ## 🚀 デプロイ
 
@@ -63,33 +65,32 @@
 
 1. Azure CLI または Azure Developer CLI (azd) がインストールされていること
 2. 適切な権限を持つAzureサブスクリプション
-3. Flex Consumptionプラン利用時は `eastasia` リージョンを推奨
 
 
 ### Azure CLIでのデプロイ（参考）
 
 ```bash
 # リソースグループを作成（存在しない場合）
-az group create --name rg-baby-first-words-dev --location eastasia
+az group create --name rg-baby-first-words-dev --location japaneast
 
 # インフラストラクチャをデプロイ
 az deployment group create \
   --resource-group rg-baby-first-words-dev \
   --template-file infra/main.bicep \
-  --parameters environmentName=dev location=eastasia appName=baby-first-words
+  --parameters environmentName=dev location=japaneast appName=baby-first-words
 ```
 
 
 ### Azure Developer CLI (azd)でのデプロイ（推奨）
 
-このテンプレートはAzure Developer CLIと互換性があります。Flex Consumptionプラン利用時は `eastasia` を指定してください。
+このテンプレートはAzure Developer CLIと互換性があります。
 
 ```bash
 # 初期化
 azd init
 
 # 環境設定
-azd env set AZURE_LOCATION eastasia
+azd env set AZURE_LOCATION japaneast
 azd env set AZURE_ENV_NAME dev
 
 # デプロイ
@@ -173,7 +174,7 @@ Function Appはシステム割り当てマネージドIDを使用してCosmos DB
 
 ### 開発環境
 - Cosmos DB: サーバーレス課金（リクエスト毎の課金）
-- Functions: Flex従量課金プラン（実行毎の課金）
+- Functions: 従量課金プラン（実行毎の課金）
 - Static Web Apps: 無料ティア
 - Storage: Standard LRS（最も安価な冗長化）
 - 短期バックアップ保持（7日間）

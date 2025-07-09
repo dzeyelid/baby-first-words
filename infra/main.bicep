@@ -77,7 +77,7 @@ module functions 'modules/functions.bicep' = {
   name: 'functions-deployment-${uniqueSuffix}'
   params: {
     functionAppName: 'func-${resourceSuffix}-${uniqueSuffix}'
-    // locationパラメータはfunctions.bicepでeastasia固定のため渡さない
+    location: location
     tags: tags
     cosmosDbAccountName: cosmosDb.outputs.accountName
     cosmosDbDatabaseName: cosmosDbDatabaseName

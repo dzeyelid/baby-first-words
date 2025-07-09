@@ -21,9 +21,8 @@ metadata version = '1.0.0'
 @maxLength(54)
 param functionAppName string
 
-
-// Functions関連リソース専用のロケーション変数（常にeastasiaで固定）
-var functionsLocation = 'southeastasia'
+@description('Location for all Function App resources')
+param location string
 
 @description('Tags to apply to the Function App')
 param tags object
@@ -61,7 +60,7 @@ var storageBlobContainerName = 'app-package-${functionAppName}-${substring(uniqu
 // Storage Account for Function App
 resource storageAccount 'Microsoft.Storage/storageAccounts@2023-01-01' = {
   name: storageAccountName
-  location: functionsLocation
+  location: location
   tags: tags
   sku: {
     name: isProd ? 'Standard_GRS' : 'Standard_LRS'
@@ -87,7 +86,7 @@ resource blobContainer 'Microsoft.Storage/storageAccounts/blobServices/container
 // Log Analytics Workspace for Application Insights
 resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2022-10-01' = if (enableMonitoring) {
   name: logAnalyticsWorkspaceName
-  location: functionsLocation
+  location: location
   tags: tags
   properties: {
     sku: {
@@ -110,7 +109,7 @@ resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2022-10
 // Application Insights for monitoring
 resource applicationInsights 'Microsoft.Insights/components@2020-02-02' = if (enableMonitoring) {
   name: applicationInsightsName
-  location: functionsLocation
+  location: location
   tags: tags
   kind: 'web'
   properties: {
@@ -130,7 +129,7 @@ resource applicationInsights 'Microsoft.Insights/components@2020-02-02' = if (en
 // Hosting Plan (Flex Consumption Plan for automatic scaling)
 resource hostingPlan 'Microsoft.Web/serverfarms@2023-01-01' = {
   name: hostingPlanName
-  location: functionsLocation
+  location: location
   tags: tags
   sku: {
     name: 'FC1'
@@ -147,7 +146,7 @@ resource hostingPlan 'Microsoft.Web/serverfarms@2023-01-01' = {
 // Function App with Managed Identity
 resource functionApp 'Microsoft.Web/sites@2024-04-01' = {
   name: functionAppName
-  location: functionsLocation
+  location: location
   tags: tags
   kind: 'functionapp,linux'
   identity: {
