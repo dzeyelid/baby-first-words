@@ -59,7 +59,6 @@ param enableBackup bool = true
 // === VARIABLES ===
 var resourceSuffix = '${appName}-${environmentName}'
 var uniqueSuffix = substring(uniqueString(resourceGroup().id), 0, 6)
-var location_staticwebapp = 'eastus2' // Static Web Apps has limited region availability, Japan regions not yet supported
 
 // === RESOURCES ===
 
@@ -72,7 +71,6 @@ module cosmosDb 'modules/cosmosdb.bicep' = {
     tags: tags
     databaseName: cosmosDbDatabaseName
     containerName: cosmosDbContainerName
-    enableBackup: enableBackup
     environmentName: environmentName
   }
 }
@@ -82,7 +80,7 @@ module functions 'modules/functions.bicep' = {
   name: 'functions-deployment-${uniqueSuffix}'
   params: {
     functionAppName: 'func-${resourceSuffix}-${uniqueSuffix}'
-    location: location
+    // locationパラメータはfunctions.bicepでeastasia固定のため渡さない
     tags: tags
     cosmosDbAccountName: cosmosDb.outputs.accountName
     cosmosDbDatabaseName: cosmosDbDatabaseName
@@ -98,7 +96,6 @@ module staticWebApp 'modules/staticwebapp.bicep' = {
   name: 'staticwebapp-deployment-${uniqueSuffix}'
   params: {
     staticWebAppName: 'swa-${resourceSuffix}-${uniqueSuffix}'
-    location: location_staticwebapp
     tags: tags
     functionAppName: functions.outputs.functionAppName
     environmentName: environmentName

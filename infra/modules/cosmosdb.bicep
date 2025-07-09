@@ -39,28 +39,7 @@ param containerName string
 @allowed(['dev', 'test', 'prod'])
 param environmentName string = 'dev'
 
-@description('Cosmos DB consistency level')
-@allowed([
-  'Eventual'
-  'ConsistentPrefix'
-  'Session'
-  'BoundedStaleness'
-  'Strong'
-])
-param consistencyLevel string = 'Session'
-
-@description('Enable backup for Cosmos DB')
-param enableBackup bool = true
-
-@description('Backup retention interval in hours')
-@minValue(1)
-@maxValue(720)
-param backupRetentionIntervalInHours int = environmentName == 'dev' ? 168 : 336 // 7 days for dev, 14 days for prod
-
 // === VARIABLES ===
-var isProd = environmentName == 'prod'
-var backupIntervalInMinutes = isProd ? 240 : 1440 // 4 hours for prod, 24 hours for dev
-var backupStorageRedundancy = isProd ? 'Geo' : 'Local'
 
 // === RESOURCES ===
 

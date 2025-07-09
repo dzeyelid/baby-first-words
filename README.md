@@ -46,79 +46,48 @@ GitHub Copilot Coding agentによるAzure開発支援が大幅に向上してい
 
 ## 使用方法
 
-### 1. Azureにログイン
+
+### 推奨デプロイ手順（Azure Developer CLI）
+
+1. Azureにログイン
+2. Flex Consumptionプラン利用時は `eastasia`（香港）リージョンを指定
+3. プロジェクト初期化・環境設定・デプロイ
 
 ```bash
 az login
 azd auth login
-```
-
-### 2. ロケーションの設定
-
-Azureリソースのデプロイ先リージョン（location）を設定します。例として日本東（japaneast）を指定します。
-
-```bash
-azd env set AZURE_LOCATION japaneast
-```
-
-### 3. プロジェクトの初期化
-
-```bash
 azd init
-```
-
-### 4. リソースのデプロイ
-
-```bash
+azd env set AZURE_LOCATION eastasia
+# （任意）リソースグループ名を指定したい場合は以下も設定可能
+# azd env set AZURE_RESOURCE_GROUP rg-baby-first-words-dev
 azd up
 ```
 
-### 5. リソースの削除
+> ⚠️ **注意:** Flex Consumptionプランは2025年7月時点で日本リージョン（japaneast/japanwest）では利用できません。東日本から利用する場合、地理的・ネットワーク的に最も近い `eastasia`（香港）が推奨です。
+> 参考: [公式ドキュメント: Flex Consumption Supported Regions (English)](https://learn.microsoft.com/azure/azure-functions/flex-consumption-how-to#view-currently-supported-regions)
 
-```bash
-azd down
-```
+従来の Consumption/Premium プランや詳細なパラメータ・CLI/スクリプトによる運用方法は [infra/README.md](infra/README.md) を参照してください。
+
 
 ## インフラストラクチャ
 
-`infra/` ディレクトリには以下のBicepテンプレートが含まれています：
+インフラ設計・Bicepテンプレートの詳細、パラメータやコスト・セキュリティ・トラブルシューティング等は [infra/README.md](infra/README.md) を参照してください。
 
-- `main.bicep` - メインのデプロイメントテンプレート（サブスクリプションスコープ）
+`infra/` ディレクトリには以下のBicepテンプレートが含まれています：
+- `main.bicep` - メインのデプロイメントテンプレート
 - `resources.bicep` - リソースグループスコープのリソース定義
 - `storage.bicep` - ストレージアカウントの定義
 
-## 検証
 
-### 環境の検証
+## 検証・トラブルシューティング
 
-提供されている検証スクリプトを実行して、必要なツールが正しくインストールされているか確認できます：
+インフラの検証・トラブルシューティング手順も [infra/README.md](infra/README.md) にまとめています。
+必要なツールの検証スクリプト（`./validate-environment.sh`）や、デプロイ後のリソース確認コマンド例もそちらを参照してください。
 
-```bash
-./validate-environment.sh
-```
 
-### MCP 統合の検証
+## 追加ファイル・MCP統合
 
-Microsoft Docs MCP Server の統合が正しく設定されているか確認できます：
-
-VS Code で `.vscode/mcp.json` ファイルに正しい設定が含まれていることを確認してください。
-
-### デプロイ後の検証
-
-デプロイ後、以下のコマンドでリソースが正常に作成されているか確認できます：
-
-```bash
-# リソースグループの確認
-az group show --name rg-baby-first-words
-
-# ストレージアカウントの確認
-az storage account list --resource-group rg-baby-first-words
-```
-
-## 追加されたファイル
-
-MCP統合に関連して、以下のファイルが追加されています：
-
+MCP統合に関連するファイルや詳細は以下を参照してください：
 - `.vscode/mcp.json` - VS Code用のMCP設定
 - `docs/mcp-integration.md` - MCP統合の詳細ドキュメント
 - `docs/mcp-demo.md` - MCP統合のデモとテスト用クエリ

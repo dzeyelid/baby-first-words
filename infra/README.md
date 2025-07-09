@@ -6,14 +6,14 @@
 
 このインフラストラクチャは以下の公式ベストプラクティスとガイドラインに従って設計されています：
 
-### 📚 参考資料
-- **[Azure Bicep ベストプラクティス](https://learn.microsoft.com/ja-jp/azure/azure-resource-manager/bicep/best-practices)** - モジュール化、パラメータ化、セキュリティ
-- **[Azure Well-Architected Framework](https://learn.microsoft.com/ja-jp/azure/well-architected/)** - 信頼性、セキュリティ、コスト最適化
-- **[Azure Developer CLI](https://learn.microsoft.com/ja-jp/azure/developer/azure-developer-cli/)** - 開発者エクスペリエンス向上
-- **[Azure Functions ベストプラクティス](https://learn.microsoft.com/ja-jp/azure/azure-functions/functions-best-practices)** - パフォーマンス、監視
-- **[Azure Cosmos DB ベストプラクティス](https://learn.microsoft.com/ja-jp/azure/cosmos-db/best-practice-performance)** - パフォーマンス、コスト最適化
-- **[Azure Static Web Apps ベストプラクティス](https://learn.microsoft.com/ja-jp/azure/static-web-apps/best-practices)** - セキュリティ、パフォーマンス
-- **[Azure リソース命名規則](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/resource-abbreviations)** - 標準的なリソース略語と命名規則
+### 📚 参考資料（英語版を参照すること）
+- **[Azure Bicep Best Practices](https://learn.microsoft.com/azure/azure-resource-manager/bicep/best-practices)** - Modularization, parameterization, security
+- **[Azure Well-Architected Framework](https://learn.microsoft.com/azure/well-architected/)** - Reliability, security, cost optimization
+- **[Azure Developer CLI](https://learn.microsoft.com/azure/developer/azure-developer-cli/)** - Developer experience
+- **[Azure Functions Best Practices](https://learn.microsoft.com/azure/azure-functions/functions-best-practices)** - Performance, monitoring
+- **[Azure Cosmos DB Best Practices](https://learn.microsoft.com/azure/cosmos-db/best-practice-performance)** - Performance, cost optimization
+- **[What is Azure Static Web Apps?](https://learn.microsoft.com/azure/static-web-apps/overview)** - Service overview, features
+- **[Azure Resource Naming Guidelines](https://learn.microsoft.com/azure/cloud-adoption-framework/ready/azure-best-practices/resource-abbreviations)** - Standard resource abbreviations and naming
 
 ### 🎯 設計原則
 - **モジュール化**: 各Azureサービスが独立したBicepモジュールとして実装
@@ -58,49 +58,53 @@
 
 ## 🚀 デプロイ
 
+
 ### 前提条件
 
-1. Azure CLIがインストールされ、ログインしていること
+1. Azure CLI または Azure Developer CLI (azd) がインストールされていること
 2. 適切な権限を持つAzureサブスクリプション
-3. リソースグループが作成されていること
+3. Flex Consumptionプラン利用時は `eastasia` リージョンを推奨
 
-### Azure CLIでのデプロイ
+
+### Azure CLIでのデプロイ（参考）
 
 ```bash
 # リソースグループを作成（存在しない場合）
-az group create --name rg-baby-first-words-dev --location japaneast
+az group create --name rg-baby-first-words-dev --location eastasia
 
 # インフラストラクチャをデプロイ
 az deployment group create \
   --resource-group rg-baby-first-words-dev \
   --template-file infra/main.bicep \
-  --parameters environmentName=dev location=japaneast appName=baby-first-words
+  --parameters environmentName=dev location=eastasia appName=baby-first-words
 ```
 
-### Azure Developer CLI (azd)でのデプロイ
 
-このテンプレートはAzure Developer CLIと互換性があります。環境固有の設定は`.env`ファイルで管理されます：
+### Azure Developer CLI (azd)でのデプロイ（推奨）
+
+このテンプレートはAzure Developer CLIと互換性があります。Flex Consumptionプラン利用時は `eastasia` を指定してください。
 
 ```bash
-# 初期化（azdを使用する場合）
+# 初期化
 azd init
 
-# 環境設定（.envファイルで設定）
-azd env set AZURE_LOCATION japaneast
+# 環境設定
+azd env set AZURE_LOCATION eastasia
 azd env set AZURE_ENV_NAME dev
 
 # デプロイ
 azd up
 ```
 
-### デプロイメントスクリプト
+
+### デプロイメントスクリプト（CLI利用時の補助）
 
 ```bash
 # 検証付きデプロイ
 ./infra/deploy.sh dev rg-baby-first-words-dev
 ```
 
-注意: このスクリプトは従来のAzure CLI デプロイ用です。Azure Developer CLIを使用する場合は`azd up`コマンドを使用してください。
+> **Note:** このスクリプトは従来のAzure CLIデプロイ用です。推奨は`azd up`コマンドです。
 
 ## ⚙️ 設定
 

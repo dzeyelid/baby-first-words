@@ -19,9 +19,6 @@ metadata version = '1.0.0'
 @maxLength(60)
 param staticWebAppName string
 
-@description('Location for the Static Web App')
-param location string
-
 @description('Tags to apply to the Static Web App')
 param tags object
 
@@ -57,54 +54,46 @@ param enableEnterpriseGradeCdn bool = false
 
 // === VARIABLES ===
 var isProd = environmentName == 'prod'
+// Static Web Apps専用のロケーション（East Asiaで固定）
+var staticWebAppLocation = 'eastasia'
 var buildProperties = {
   skipGithubActionWorkflowGeneration: empty(repositoryUrl) ? true : false
   appLocation: '/src/web' // Updated to match azure.yaml structure
   apiLocation: '' // Empty since we're using separate Function App
   outputLocation: '/dist' // Build output location
   appBuildCommand: 'npm run build'
-  apiBuildCommand: ''
-  skipApi: true
 }
 
 // === RESOURCES ===
 
 // Static Web App
-resource staticWebApp 'Microsoft.Web/staticSites@2023-01-01' = {
+resource staticWebApp 'Microsoft.Web/staticSites@2024-04-01' = {
   name: staticWebAppName
-  location: location
+  location: staticWebAppLocation
   tags: tags
   sku: {
     name: sku
     tier: sku
   }
   properties: {
-    // Build properties for automatic deployment (when using GitHub integration)
     buildProperties: buildProperties
-    // Repository configuration (optional)
-    repositoryUrl: repositoryUrl
-    branch: repositoryBranch
-    repositoryToken: repositoryToken
-    // Staging environment policy
-    stagingEnvironmentPolicy: enableStagingEnvironment ? 'Enabled' : 'Disabled'
-    // Allow configuration file updates
-    allowConfigFileUpdates: true
-    // Enterprise edge
-    enterpriseGradeCdnStatus: enableEnterpriseGradeCdn ? 'Enabled' : 'Disabled'
-    // Provider for deployment
-    provider: empty(repositoryUrl) ? 'None' : 'GitHub'
-    // Public traffic policy
-    publicNetworkAccess: 'Enabled'
+    // GitHub連携時のみリポジトリ情報を指定
+    repositoryUrl: empty(repositoryUrl) ? null : repositoryUrl
+    branch: empty(repositoryUrl) ? null : repositoryBranch
+    repositoryToken: empty(repositoryUrl) ? null : repositoryToken
+    // 必要な場合のみ下記を明示
+    stagingEnvironmentPolicy: enableStagingEnvironment ? 'Enabled' : null
+    enterpriseGradeCdnStatus: enableEnterpriseGradeCdn ? 'Enabled' : null
   }
 }
 
 // Reference to existing Function App for linking
-resource functionApp 'Microsoft.Web/sites@2023-01-01' existing = {
+resource functionApp 'Microsoft.Web/sites@2024-04-01' existing = {
   name: functionAppName
 }
 
 // Linked backend configuration for Function App integration
-resource linkedBackend 'Microsoft.Web/staticSites/linkedBackends@2023-01-01' = {
+resource linkedBackend 'Microsoft.Web/staticSites/linkedBackends@2024-04-01' = {
   parent: staticWebApp
   name: functionAppName
   properties: {
