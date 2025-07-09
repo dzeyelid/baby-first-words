@@ -1,3 +1,24 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Azure/azure-dev/main/schemas/v1.0/azure.yaml.json
+
 name: baby-first-words
 metadata:
   template: baby-first-words@0.0.1-beta
+  
+# Infrastructure configuration
+infra:
+  provider: bicep
+  path: infra
+  
+# Services configuration  
+services:
+  api:
+    project: ./src/api
+    language: ts
+    host: function
+    dist: dist
+    
+  web:
+    project: ./src/web
+    language: ts
+    host: staticwebapp
+    dist: dist
