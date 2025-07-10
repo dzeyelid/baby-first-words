@@ -236,3 +236,16 @@ Function Appはシステム割り当てマネージドIDを使用してCosmos DB
   - TypeScript サポート
   - 包括的な監視とログ記録
   - 環境固有の設定最適化
+
+## Dev ContainerでのAzure Functions開発
+
+Dev Container環境では、`setup.sh`でAzure Functions Core Tools（funcコマンド）が自動インストールされており、ローカル開発・デバッグ・デプロイがすぐに利用できます。
+
+### 利用例
+
+```bash
+func --version
+func start
+```
+
+> なぜこの構成か: Azure Functionsのローカル開発・テスト・CI/CD対応のため。Microsoft公式推奨手順に準拠。

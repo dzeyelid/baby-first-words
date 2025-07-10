@@ -44,6 +44,15 @@ GitHub Copilot Coding agentによるAzure開発支援が大幅に向上してい
 3. [Bicep CLI](https://docs.microsoft.com/azure/azure-resource-manager/bicep/install)
 4. [VS Code](https://code.visualstudio.com/) with GitHub Copilot extension
 
+## Dev Containerでの開発環境
+
+Dev Containerでは、Azure Functions Core Tools（funcコマンド）も自動インストールされており、ローカル開発・デバッグ・デプロイがすぐに利用できます。
+
+```bash
+func --version
+func start
+```
+
 ## 使用方法
 
 
