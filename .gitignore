@@ -10,6 +10,7 @@ node_modules/
 # Environment files
 .env
 .env.local
+local.settings.json
 
 # VS Code (exclude personal settings but keep MCP configuration)
 .vscode/settings.json.user
