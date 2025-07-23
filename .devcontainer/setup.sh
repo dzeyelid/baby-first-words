@@ -1,10 +1,6 @@
 #!/bin/bash
 set -euo pipefail
 
-# Install Bicep extension for Azure CLI
-echo "Installing Bicep extension for Azure CLI..."
-az extension add --name bicep
-
 # Install Bicep CLI if not present
 if ! command -v bicep &> /dev/null; then
     echo "Installing Bicep CLI via az bicep..."
