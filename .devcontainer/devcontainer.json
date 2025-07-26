@@ -10,6 +10,7 @@
   "customizations": {
     "vscode": {
       "extensions": [
+        "Azurite.azurite",
         "ms-azuretools.vscode-bicep",
         "ms-azuretools.azure-dev",
         "github.copilot",
