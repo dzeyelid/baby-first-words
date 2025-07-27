@@ -29,42 +29,42 @@ export class CosmosDbService {
         }
     }
 
-    async createItem(item: any): Promise<any> {
+    async createItem<T>(item: T): Promise<T> {
         try {
             const { resource } = await this.container.items.create(item);
-            return resource;
+            return resource as T;
         } catch (error) {
             console.error('Failed to create item:', error);
             throw error;
         }
     }
 
-    async getItem(id: string, partitionKey: string): Promise<any> {
+    async getItem<T>(id: string, partitionKey: string): Promise<T | undefined> {
         try {
             const { resource } = await this.container.item(id, partitionKey).read();
-            return resource;
+            return resource as T;
         } catch (error) {
             console.error('Failed to get item:', error);
             throw error;
         }
     }
 
-    async queryItems(query: string): Promise<any[]> {
+    async queryItems<T>(query: string): Promise<T[]> {
         try {
             const { resources } = await this.container.items
                 .query(query)
                 .fetchAll();
-            return resources;
+            return resources as T[];
         } catch (error) {
             console.error('Failed to query items:', error);
             throw error;
         }
     }
 
-    async updateItem(id: string, partitionKey: string, item: any): Promise<any> {
+    async updateItem<T>(id: string, partitionKey: string, item: T): Promise<T> {
         try {
             const { resource } = await this.container.item(id, partitionKey).replace(item);
-            return resource;
+            return resource as T;
         } catch (error) {
             console.error('Failed to update item:', error);
             throw error;
