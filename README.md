@@ -73,6 +73,84 @@ azd up
 
 従来の Consumption/Premium プランや詳細なパラメータ・CLI/スクリプトによる運用方法は [infra/README.md](infra/README.md) を参照してください。
 
+## Azure Static Web Apps + Nuxt アプリケーション
+
+### 概要
+
+`/src/web` ディレクトリには、Azure Static Web Apps用のNuxt.jsアプリケーションが含まれています。
+
+**主な機能:**
+- 🎉 **ホームページ**: プロジェクト概要と機能の紹介
+- 🔗 **API連携デモ**: Azure Functions APIとの接続テスト
+- 👶 **はじめての言葉**: 赤ちゃんの記録管理（サンプル実装）
+
+**技術スタック:**
+- **フロントエンド**: Nuxt 3, Vue.js 3, TypeScript, Tailwind CSS
+- **バックエンド**: Azure Functions v4 (TypeScript)
+- **デプロイ**: Azure Static Web Apps, GitHub Actions
+
+### ローカル開発
+
+1. **依存関係のインストール**
+```bash
+cd src/web
+npm install
+
+# API の依存関係もインストール
+cd api
+npm install
+cd ..
+```
+
+2. **開発サーバーの起動**
+```bash
+# フロントエンドの開発サーバー (http://localhost:3000)
+npm run dev
+
+# API の開発サーバー (別ターミナルで実行)
+cd api
+npm run start
+```
+
+3. **ビルドの確認**
+```bash
+# フロントエンドのビルド
+npm run build
+
+# API のビルド
+cd api
+npm run build
+```
+
+### デプロイ方法
+
+#### 1. GitHub Actions による自動デプロイ (推奨)
+
+1. Azure ポータルで Azure Static Web Apps リソースを作成
+2. GitHub リポジトリと連携設定
+3. `AZURE_STATIC_WEB_APPS_API_TOKEN` シークレットを GitHub リポジトリに設定
+4. `main` ブランチに Push すると自動デプロイ
+
+#### 2. Azure Developer CLI (azd) による手動デプロイ
+
+```bash
+# Azure Static Web Apps 用の設定（azure.yaml で自動設定済み）
+azd up
+```
+
+### 設定ファイル
+
+- **`src/web/nuxt.config.ts`**: Nuxt.js の設定（Azure Functions preset）
+- **`src/web/staticwebapp.config.json`**: Static Web Apps の設定
+- **`.github/workflows/azure-static-web-apps.yml`**: GitHub Actions ワークフロー
+
+### API エンドポイント
+
+- **`/api/health`**: ヘルスチェック API
+  - メソッド: GET
+  - 認証: 不要
+  - レスポンス: アプリケーションの状態情報
+
 
 ## インフラストラクチャ
 

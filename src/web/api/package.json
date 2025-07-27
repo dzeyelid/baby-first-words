@@ -1,0 +1,24 @@
+{
+  "name": "baby-first-words-web-api",
+  "version": "1.0.0",
+  "description": "Azure Static Web Apps integrated API for baby first words application",
+  "main": "dist/functions/*.js",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "prestart": "npm run build",
+    "start": "func host start",
+    "test": "echo \"No tests yet implemented\""
+  },
+  "dependencies": {
+    "@azure/functions": "^4.0.0",
+    "@azure/cosmos": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "typescript": "^4.9.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
