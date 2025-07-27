@@ -6,6 +6,14 @@ export default defineNuxtConfig({
   // Explicitly enable pages
   pages: true,
   
+  // Modules
+  modules: ['@nuxtjs/tailwindcss'],
+  
+  // Azure Static Web Apps configuration
+  nitro: {
+    preset: 'azure-functions'
+  },
+  
   // App configuration
   app: {
     head: {
