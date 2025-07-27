@@ -10,9 +10,23 @@ node_modules/
 # Environment files
 .env
 .env.local
+local.settings.json
 
 # VS Code (exclude personal settings but keep MCP configuration)
 .vscode/settings.json.user
+
+# REST Client environment files
+tests/api/*.local.http
+tests/api/.env
+
+# Azurite (Azure Storage Emulator) generated files
+__azurite_db_blob__.json
+__azurite_db_blob_extent__.json
+__azurite_db_queue__.json
+__azurite_db_queue_extent__.json
+__azurite_db_table__.json
+__azurite_db_table_extent__.json
+__blobstorage__/
 
 # OS generated files
 .DS_Store

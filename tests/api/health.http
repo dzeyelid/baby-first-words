@@ -1,0 +1,43 @@
+### Azure Functions Health Check API Tests
+
+### Variables for Local Development
+@localBaseUrl = http://localhost:7071
+@apiPath = /api
+
+### Variables for Azure Production
+@azureBaseUrl = https://your-function-app.azurewebsites.net
+@apiPath = /api
+
+### ===================================
+### LOCAL ENVIRONMENT TESTS
+### ===================================
+
+### Health Check - Local
+GET {{localBaseUrl}}{{apiPath}}/health
+Content-Type: application/json
+
+###
+
+### Health Check with Accept header - Local
+GET {{localBaseUrl}}{{apiPath}}/health
+Accept: application/json
+Content-Type: application/json
+
+###
+
+### ===================================
+### AZURE ENVIRONMENT TESTS
+### ===================================
+
+### Health Check - Azure
+GET {{azureBaseUrl}}{{apiPath}}/health
+Content-Type: application/json
+
+###
+
+### Health Check with Accept header - Azure
+GET {{azureBaseUrl}}{{apiPath}}/health
+Accept: application/json
+Content-Type: application/json
+
+###
