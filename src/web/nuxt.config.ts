@@ -1,20 +1,10 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  compatibilityDate: '2025-07-15',
+  compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
   
-  // Modules
-  modules: ['@nuxtjs/tailwindcss'],
-  
-  // Azure Static Web Apps configuration
-  nitro: {
-    preset: 'azure-functions',
-    azure: {
-      functions: {
-        functionAppName: 'baby-first-words'
-      }
-    }
-  },
+  // Explicitly enable pages
+  pages: true,
   
   // App configuration
   app: {
