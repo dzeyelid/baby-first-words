@@ -11,11 +11,14 @@
     "vscode": {
       "extensions": [
         "Azurite.azurite",
+        "GitHub.vscode-github-actions",
+        "ms-azuretools.vscode-azure-mcp-server",
         "ms-azuretools.vscode-bicep",
         "ms-azuretools.azure-dev",
         "github.copilot",
         "github.copilot-chat",
-        "humao.rest-client"
+        "humao.rest-client",
+        "Vue.volar"
       ]
     }
   },
