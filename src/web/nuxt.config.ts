@@ -11,7 +11,14 @@ export default defineNuxtConfig({
   
   // Azure Static Web Apps configuration
   nitro: {
-    preset: 'azure-functions'
+    preset: 'azure',
+    azure: {
+      config: {
+        platform: {
+          apiRuntime: 'node:20',
+        }
+      }
+    }
   },
   
   // App configuration
@@ -21,8 +28,13 @@ export default defineNuxtConfig({
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        { hid: 'description', name: 'description', content: 'Azure Static Web Apps sample app for recording baby\'s first words' }
+        { name: 'description', content: 'Azure Static Web Apps sample app for recording baby\'s first words' }
       ]
     }
-  }
+  },
+
+  // Environment variables
+  runtimeConfig: {
+    AzureWebJobsStorage: "UseDevelopmentStorage=true",
+  },
 })

@@ -1,0 +1,15 @@
+{
+  "typescript.preferences.includePackageJsonAutoImports": "on",
+  "typescript.suggest.autoImports": true,
+  "vue.codeActions.enabled": true,
+  "vue.complete.casing.tags": "kebab",
+  "vue.complete.casing.props": "camel",
+  "emmet.includeLanguages": {
+    "vue": "html"
+  },
+  "files.associations": {
+    "*.vue": "vue"
+  },
+  "debug.javascript.breakOnConditionalError": true,
+  "debug.javascript.unmapMissingSources": true
+}

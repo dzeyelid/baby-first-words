@@ -1,0 +1,46 @@
+{
+  "folders": [
+    {
+      "name": "🌐 Web App",
+      "path": "./src/web"
+    },
+    {
+      "name": "⚡ API (Main)",
+      "path": "./src/api"
+    },
+    {
+      "name": "🏗️ Infrastructure",
+      "path": "./infra"
+    },
+    {
+      "name": "📋 Project Root",
+      "path": "./"
+    }
+  ],
+  "settings": {
+    "typescript.preferences.includePackageJsonAutoImports": "auto",
+    "files.exclude": {
+      "**/.git": true,
+      "**/.svn": true,
+      "**/.hg": true,
+      "**/CVS": true,
+      "**/.DS_Store": true,
+      "**/Thumbs.db": true,
+      "**/__azurite_db_blob__.json": true,
+      "**/__azurite_db_blob_extent__.json": true,
+      "**/__blobstorage__": true
+    }
+  },
+  "extensions": {
+    "recommendations": [
+      "ms-azuretools.vscode-bicep",
+      "ms-azuretools.azure-dev",
+      "ms-vscode.azure-account",
+      "ms-azuretools.vscode-azurefunctions",
+      "GitHub.copilot",
+      "GitHub.copilot-chat",
+      "Vue.volar",
+      "ms-vscode.vscode-typescript-next"
+    ]
+  }
+}

@@ -29,7 +29,6 @@ pids
 coverage/
 
 # IDE
-.vscode/
 .idea/
 *.swp
 *.swo

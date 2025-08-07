@@ -1,4 +1,5 @@
-import { CosmosClient, Database, Container, ItemDefinition } from '@azure/cosmos';
+import { CosmosClient, Database, Container } from '@azure/cosmos';
+import type { ItemDefinition } from '@azure/cosmos';
 
 export class CosmosDbService {
     private client: CosmosClient;
@@ -81,7 +82,7 @@ export class CosmosDbService {
     }
 }
 
-// Singleton instance for reuse across functions
+// Singleton instance for reuse across server routes
 let cosmosDbService: CosmosDbService | null = null;
 
 export function getCosmosDbService(): CosmosDbService {
