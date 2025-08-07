@@ -44,6 +44,8 @@ jobs:
           output_location: "src/web/.output/public" # Built app content directory - optional
           ###### End of Repository/Build Configurations ######
           skip_api_build: true # We build the API ourselves
+        env:
+          deployment_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
