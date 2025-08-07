@@ -1,6 +1,6 @@
-# Baby First Words - Azure Static Web Apps (Nuxt)
+# Baby First Words - Azure Static Web Apps (Nuxt 4)
 
-Azure Static Web Apps を使用したNuxt.jsアプリケーションです。
+Azure Static Web Apps を使用したNuxt 4アプリケーションです。サーバーAPIルートを使用してフロントエンドとバックエンドが統合されています。
 
 ## 🚀 クイックスタート
 
@@ -13,48 +13,49 @@ npm install
 # 開発サーバー起動 (http://localhost:3000)
 npm run dev
 
-# APIサーバー起動 (別ターミナル)
-cd api
-npm install
-npm run start
+# Static Web Apps CLI による開発（推奨）
+npx @azure/static-web-apps-cli start
 ```
 
 ### ビルド
 
 ```bash
-# フロントエンドのビルド
+# アプリケーションのビルド
 npm run build
 
-# APIのビルド
-cd api
-npm run build
+# プレビューモード
+npm run preview
 ```
 
 ## 📁 ディレクトリ構造
 
 ```
 src/web/
-├── app/                    # Nuxt アプリケーション
-│   └── app.vue            # ルートレイアウト
-├── pages/                 # ページコンポーネント
-│   ├── index.vue          # ホームページ (/)
-│   ├── api-demo.vue       # API連携デモ (/api-demo)
-│   └── first-words.vue    # はじめての言葉 (/first-words)
-├── api/                   # Azure Functions API
-│   ├── src/functions/     # 関数定義
-│   └── src/services/      # サービスクラス
-├── public/                # 静的アセット
-├── nuxt.config.ts         # Nuxt 設定
-└── staticwebapp.config.json # Static Web Apps 設定
+├── app.vue                 # ルートアプリケーション
+├── pages/                  # ページコンポーネント（ファイルベースルーティング）
+│   ├── index.vue           # ホームページ (/)
+│   ├── api-demo.vue        # API連携デモ (/api-demo)
+│   └── first-words.vue     # はじめての言葉 (/first-words)
+├── server/                 # Nuxt サーバーAPI
+│   └── api/               # APIルート
+│       └── health.get.ts   # ヘルスチェックAPI
+├── services/               # サービスクラス
+│   └── cosmosdb.ts        # Cosmos DB サービス
+├── public/                 # 静的アセット
+├── nuxt.config.ts          # Nuxt 4 設定
+├── staticwebapp.config.json # Static Web Apps 設定
+├── swa-cli.config.json     # SWA CLI 設定
+└── local.settings.json.template # 環境変数テンプレート
 ```
 
 ## 🔧 技術スタック
 
-- **フロントエンド**: Nuxt 3, Vue.js 3, TypeScript
+- **フロントエンド**: Nuxt 4.0.1, Vue.js 3, TypeScript
 - **スタイリング**: Tailwind CSS
-- **バックエンド**: Azure Functions v4 (TypeScript)
+- **バックエンド**: Nuxt サーバーAPI（Node.js 20）
+- **データベース**: Azure Cosmos DB (NoSQL)
 - **デプロイ**: Azure Static Web Apps
-- **ビルドツール**: Nitro (azure-functions preset)
+- **ビルドツール**: Nitro（Azure preset）
 
 ## 🌐 デプロイ
 
@@ -79,9 +80,10 @@ azd up
 - ナビゲーション
 
 ### API連携デモ (`/api-demo`)
-- ヘルスチェックAPI呼び出し
+- ヘルスチェックAPI（Nuxt サーバーAPI）呼び出し
 - レスポンス表示
 - エラーハンドリング例
+- データベース接続状況の確認
 
 ### はじめての言葉 (`/first-words`)
 - 赤ちゃんの言葉記録フォーム
@@ -126,17 +128,22 @@ API関連の環境変数は Azure Static Web Apps の設定画面で管理:
 - `COSMOS_DB_DATABASE_NAME`: データベース名 (デフォルト: baby-first-words)
 - `COSMOS_DB_CONTAINER_NAME`: コンテナ名 (デフォルト: words)
 
-### 開発用
+### ローカル開発設定
 
-ローカル開発時は `api/local.settings.json` を作成:
+`local.settings.json.template` をコピーして `local.settings.json` を作成:
+
+```bash
+cp local.settings.json.template local.settings.json
+```
 
 ```json
 {
   "IsEncrypted": false,
   "Values": {
-    "AzureWebJobsStorage": "",
-    "FUNCTIONS_WORKER_RUNTIME": "node",
-    "COSMOS_DB_CONNECTION_STRING": "your-connection-string"
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "COSMOS_DB_CONNECTION_STRING": "your_cosmos_db_connection_string_here",
+    "COSMOS_DB_DATABASE_NAME": "baby-first-words",
+    "COSMOS_DB_CONTAINER_NAME": "words"
   }
 }
 ```
