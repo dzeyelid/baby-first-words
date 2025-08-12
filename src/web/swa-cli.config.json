@@ -1,14 +1,12 @@
 {
   "$schema": "https://aka.ms/azure/static-web-apps-cli/schema",
   "configurations": {
-    "dev": {
+    "preview": {
       "appLocation": ".",
       "apiLocation": ".output/server",
       "outputLocation": ".output/public",
-      "appBuildCommand": "npm run build",
-      "apiBuildCommand": "npm run build --if-present",
-      "appDevserverUrl": "http://localhost:3000",
-      "run": "npm run dev"
+      "appBuildCommand": "npm run build -- --preset=azure",
+      "apiBuildCommand": "npm run build --if-present -- --preset=azure"
     },
     "debug": {
       "appLocation": ".",

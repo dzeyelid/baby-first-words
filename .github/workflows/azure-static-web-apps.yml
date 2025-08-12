@@ -42,8 +42,9 @@ jobs:
           app_location: "src/web" # App source code path
           api_location: "src/web/.output/server" # Api source code path - optional
           output_location: ".output/public" # Built app content directory - optional
-          ###### End of Repository/Build Configurations ######
+          api_build_command: "npm run build -- --preset azure"
           skip_api_build: true # We build the API ourselves
+          ###### End of Repository/Build Configurations ######
         env:
           deployment_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
 

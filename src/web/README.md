@@ -9,13 +9,29 @@ Azure Static Web Apps を使用したNuxt 4アプリケーションです。サ�
 ```bash
 # 依存関係のインストール
 npm install
-
-# 開発サーバー起動 (http://localhost:3000)
-npm run dev
-
-# Static Web Apps CLI による開発（推奨）
-npx @azure/static-web-apps-cli start
 ```
+
+以下のいずれかの方法で起動します。
+
+- Nuxtのみ（最速）
+
+```bash
+# 開発サーバー起動（http://localhost:3000）
+npm run dev
+```
+
+- SWA CLI 経由（127.0.0.1:4280 にプロキシ）
+
+```bash
+# 1) SWA の dev プロファイルでビルド（必要に応じて）
+swa build preview
+
+# 2) SWA の dev プロファイルで起動（http://127.0.0.1:4280）
+swa start preview
+```
+
+備考:
+- SWA 経由のURLは http://127.0.0.1:4280（または http://localhost:4280）。
 
 ### ビルド
 
@@ -94,6 +110,54 @@ azd up
 
 ### `GET /api/health`
 アプリケーションのヘルスチェック
+## 🧪 VS Codeでの起動/デバッグ
+
+このリポジトリには VS Code のデバッグ構成（`.vscode/launch.json`）とタスク（`.vscode/tasks.json`）が用意されています。以下の手順でフロント/バックエンドのブレークポイントデバッグが可能です。
+
+### 前提
+- Node.js 20（`package.json#engines`）
+- Google Chrome（VS Code の内蔵 JavaScript Debugger が利用）
+- Azure Static Web Apps CLI（グローバルにインストール済み推奨）
+  - インストール済みの確認: `swa --version`
+
+### よく使う起動構成
+
+- Nuxt: Dev (Server + Auto Chrome)
+  - Nuxt の開発サーバー（http://localhost:3000）を起動し、Chrome が自動でデバッグ接続します。
+  - クライアント（`pages/*.vue`）とサーバーAPI（`server/api/*.ts`）にブレークポイントを設定できます。
+
+- SWA: Debug (Nuxt + SWA)
+  - 複合構成で「Nuxt: Dev (Server only)」→「SWA: Dev (CLI + Auto Chrome)」の順に起動します。
+  - SWA 経由のURLは http://127.0.0.1:4280 です（localhost でも可）。
+  - SWA は `swa-cli.config.json` の `debug` 構成を使用し、Nuxt dev（http://localhost:3000）へプロキシします。
+
+### 起動手順（おすすめ）
+1. VS Code 左側の「実行とデバッグ」を開く
+2. ドロップダウンから「SWA: Debug (Nuxt + SWA)」を選択して開始
+3. ブラウザ（Chrome）が自動で開きます（http://127.0.0.1:4280）
+4. 以下の場所にブレークポイントを設定して動作確認
+   - クライアント: `pages/first-words.vue` など
+   - サーバー: `server/api/health.get.ts` など
+
+### よくあるハマりどころと対処
+
+- 自動起動時にダイアログ「Format uri must contain exactly one substitution placeholder」
+  - `launch.json` の `serverReadyAction.uriFormat` は必ず `%s` を指定してください。
+  - `serverReadyAction.pattern` は URL 全体を 1 グループでキャプチャする正規表現にしてください。
+
+  - 開発時は `staticwebapp.config.json` のルート書き換えを無効化してあります（本番SSR向けの設定は不要なため）。
+  - それでも崩れる場合はブラウザキャッシュクリア、`nuxt.config.ts` の設定確認を行ってください。
+
+- SWA 経由で `/api` が 404
+  - まずは http://127.0.0.1:4280/api/health を直接開いて確認。
+  - `swa-cli.config.json` の `debug` 構成で
+    - `appDevserverUrl`: `http://localhost:3000`
+    - `apiDevserverUrl`: `http://localhost:3000`
+    を指定しています。Nuxt 側で `/api/*` を扱うため、これで問題なくプロキシされます。
+
+### 補足
+- 長時間動作する `npm run dev` は `preLaunchTask` ではなく「複合構成」で並行起動しています。
+- SWA を使わず最速で動かしたい場合は「Nuxt: Dev (Server + Auto Chrome)」だけでも開発可能です（http://localhost:3000）。
 
 **レスポンス例:**
 ```json

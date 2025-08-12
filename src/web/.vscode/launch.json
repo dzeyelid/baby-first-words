@@ -2,19 +2,71 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Nuxt: Dev (Auto Chrome)",
       "type": "node",
       "request": "launch",
-      "name": "Debug Nuxt Server",
-      "program": "${workspaceFolder}/node_modules/.bin/nuxt",
-      "args": ["dev"],
-      "autoAttachChildProcesses": true,
-      "runtimeExecutable": "node",
-      "runtimeArgs": ["--inspect"],
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
       "env": {
-        "NODE_ENV": "development"
+        "NODE_OPTIONS": "--inspect"
       },
-      "sourceMaps": true,
-      "console": "integratedTerminal"
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "cwd": "${workspaceFolder}",
+      "preLaunchTask": "npm install (web)",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "serverReadyAction": {
+        "pattern": "Local:\\s+(https?://localhost:\\d+)",
+        "uriFormat": "%s",
+        "action": "debugWithChrome"
+      }
+    },
+    {
+      "name": "SWA: Launch Nuxt for SWA CLI",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "env": {
+        "NODE_OPTIONS": "--inspect"
+      },
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "cwd": "${workspaceFolder}",
+      "preLaunchTask": "npm install (web)",
+      "skipFiles": [
+        "<node_internals>/**"
+      ]
+    },
+    {
+      "name": "SWA: Debug (Auto Chrome)",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "swa",
+  "runtimeArgs": ["start", "debug"],
+      "env": {
+        "NODE_OPTIONS": "--inspect"
+      },
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "outputCapture": "std",
+      "cwd": "${workspaceFolder}",
+      "serverReadyAction": {
+        "pattern": "(https?://(?:localhost|127\\.0\\.0\\.1):4280)",
+        "uriFormat": "%s",
+        "action": "debugWithChrome"
+      }
+    }
+  ],
+  "compounds": [
+    {
+      "name": "SWA: Debug (Nuxt + SWA)",
+      "configurations": [
+        "SWA: Launch Nuxt for SWA CLI",
+        "SWA: Debug (Auto Chrome)"
+      ]
     }
   ]
 }

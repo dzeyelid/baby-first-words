@@ -11,7 +11,6 @@ export default defineNuxtConfig({
   
   // Azure Static Web Apps configuration
   nitro: {
-    preset: 'azure',
     azure: {
       config: {
         platform: {

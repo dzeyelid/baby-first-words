@@ -8,6 +8,8 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
+  "swa:prep:dev": "cp -f staticwebapp.config.dev.json staticwebapp.config.json",
+  "swa:dev": "npm run swa:prep:dev && swa start dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"

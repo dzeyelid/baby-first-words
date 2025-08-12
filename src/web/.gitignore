@@ -1,5 +1,6 @@
 # Nuxt dev/build outputs
 .output
+!.output/server/local.settings.json
 .data
 .nuxt
 .nitro
