@@ -28,4 +28,16 @@ sudo apt-get install -y azure-functions-core-tools-4
 
 echo "Azure Functions Core Tools installation complete!"
 
+# Install Azure Static Web Apps CLI (SWA CLI) globally
+echo "Installing Azure Static Web Apps CLI (SWA CLI)..."
+npm install -g @azure/static-web-apps-cli
+
+# Verify SWA CLI installation
+if command -v swa &> /dev/null; then
+    echo "SWA CLI installation successful!"
+    echo "SWA CLI version: $(swa --version)"
+else
+    echo "Warning: SWA CLI installation may have failed"
+fi
+
 echo "Setup completed successfully!"

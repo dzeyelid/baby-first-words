@@ -73,6 +73,96 @@ azd up
 
 従来の Consumption/Premium プランや詳細なパラメータ・CLI/スクリプトによる運用方法は [infra/README.md](infra/README.md) を参照してください。
 
+## Azure Static Web Apps + Nuxt 4 アプリケーション
+
+### 概要
+
+`/src/web` ディレクトリには、Azure Static Web Apps用のNuxt 4アプリケーションが含まれています。
+
+**主な機能:**
+- 🎉 **ホームページ**: プロジェクト概要と機能の紹介
+- 🔗 **API連携デモ**: Nuxt サーバーAPIとの接続テスト
+- 👶 **はじめての言葉**: 赤ちゃんの記録管理（サンプル実装）
+
+**技術スタック:**
+- **フロントエンド**: Nuxt 4.0.1, Vue.js 3, TypeScript, Tailwind CSS
+- **バックエンド**: Nuxt サーバーAPI（Node.js 20）
+- **データベース**: Azure Cosmos DB (NoSQL)
+- **デプロイ**: Azure Static Web Apps, GitHub Actions
+
+### ローカル開発
+
+1. **依存関係のインストール**
+```bash
+cd src/web
+npm install
+```
+
+2. **開発サーバーの起動**
+```bash
+# Nuxtアプリケーション（フロントエンド + サーバーAPI）
+npm run dev
+# http://localhost:3000 でアクセス
+
+# Static Web Apps CLI による開発（推奨）
+npx @azure/static-web-apps-cli start
+```
+
+3. **ビルドの確認**
+```bash
+# アプリケーションのビルド
+npm run build
+
+# プレビューモード
+npm run preview
+```
+
+### デプロイ方法
+
+#### 1. GitHub Actions による自動デプロイ (推奨)
+
+1. Azure ポータルで Azure Static Web Apps リソースを作成
+2. GitHub リポジトリと連携設定
+3. `AZURE_STATIC_WEB_APPS_API_TOKEN` シークレットを GitHub リポジトリに設定
+4. `main` ブランチに Push すると自動デプロイ
+
+#### 2. Azure Developer CLI (azd) による手動デプロイ
+
+```bash
+# Azure Static Web Apps 用の設定（azure.yaml で自動設定済み）
+azd up
+```
+
+### 設定ファイル
+
+- **`src/web/nuxt.config.ts`**: Nuxt 4の設定（Azure preset、Node.js 20）
+- **`src/web/staticwebapp.config.json`**: Static Web Apps の設定
+- **`src/web/swa-cli.config.json`**: Static Web Apps CLI の設定
+- **`src/web/local.settings.json.template`**: 環境変数テンプレート
+- **`.github/workflows/azure-static-web-apps.yml`**: GitHub Actions ワークフロー
+
+### API エンドポイント
+
+- **`/api/health`**: ヘルスチェック API (Nuxt サーバーAPI)
+  - メソッド: GET
+  - 認証: 不要
+  - レスポンス: アプリケーションの状態情報（データベース接続状況、メモリ使用量等）
+
+### 環境変数設定
+
+ローカル開発時は `src/web/local.settings.json.template` をコピーして `local.settings.json` を作成し、必要な環境変数を設定してください：
+
+```json
+{
+  "IsEncrypted": false,
+  "Values": {
+    "COSMOS_DB_CONNECTION_STRING": "your_cosmos_db_connection_string_here",
+    "COSMOS_DB_DATABASE_NAME": "baby-first-words",
+    "COSMOS_DB_CONTAINER_NAME": "words"
+  }
+}
+```
+
 
 ## インフラストラクチャ
 
