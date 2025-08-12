@@ -1,5 +1,10 @@
 # baby-first-words
 
+## プロダクト要件（PRD）
+
+- PRDテンプレート: [docs/prd-template.md](./docs/prd-template.md)
+- 本プロジェクトのドラフトPRD: [docs/prd-baby-first-words.md](./docs/prd-baby-first-words.md)
+
 ## 前提条件
 
 - GitHub Codespaces またはVisual Studio Codeなどdevcontainerを利用できる環境
