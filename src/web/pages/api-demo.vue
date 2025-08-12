@@ -102,11 +102,16 @@
 </template>
 
 <script setup lang="ts">
+interface HealthApiData {
+  status: string
+  [key: string]: unknown // Add more properties if needed
+}
+
 interface ApiResponse {
   success: boolean
   status: number
   statusText: string
-  data?: any
+  data?: HealthApiData
   error?: string
 }
 
