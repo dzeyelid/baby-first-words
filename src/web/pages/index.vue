@@ -30,7 +30,7 @@
             <div class="bg-green-50 p-6 rounded-lg">
               <h3 class="text-xl font-semibold text-green-800 mb-2">⚡ バックエンド</h3>
               <ul class="text-green-700 space-y-1">
-                <li>• Azure Functions v4</li>
+                <li>• Nuxt Server API</li>
                 <li>• TypeScript API</li>
                 <li>• Static Web Apps統合</li>
                 <li>• サーバーレス実行</li>

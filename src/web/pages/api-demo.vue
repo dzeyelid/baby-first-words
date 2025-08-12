@@ -81,7 +81,7 @@
           <div class="mt-6">
             <h3 class="text-lg font-semibold text-gray-700 mb-3">説明</h3>
             <p class="text-gray-600">
-              このAPIは、Azure Functions + TypeScriptで実装されたヘルスチェックエンドポイントです。
+              このAPIは、Nuxt server API + TypeScriptで実装されたヘルスチェックエンドポイントです。
               アプリケーションの状態、メモリ使用量、データベース接続状況などの情報を返します。
             </p>
           </div>
@@ -89,7 +89,7 @@
           <div class="mt-6">
             <h3 class="text-lg font-semibold text-gray-700 mb-3">技術スタック</h3>
             <div class="flex flex-wrap gap-2">
-              <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">Azure Functions v4</span>
+              <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">Nuxt Server API</span>
               <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">TypeScript</span>
               <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">Azure Static Web Apps</span>
               <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">Node.js</span>

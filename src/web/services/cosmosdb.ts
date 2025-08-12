@@ -64,8 +64,8 @@ export class CosmosDbService {
 
     async updateItem<T extends ItemDefinition>(id: string, partitionKey: string, item: T): Promise<T> {
         try {
-            const { resource } = await this.container.item(id, partitionKey).replace(item);
-            return resource as unknown as T;
+            const { resource } = await this.container.item(id, partitionKey).replace<T>(item);
+            return resource as T;
         } catch (error) {
             console.error('Failed to update item:', error);
             throw error;
