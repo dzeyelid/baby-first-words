@@ -1,4 +1,5 @@
 import { CosmosClient, Database, Container } from '@azure/cosmos';
+import type { ItemDefinition } from '@azure/cosmos';
 
 export class CosmosDbService {
     private client: CosmosClient;
@@ -29,7 +30,7 @@ export class CosmosDbService {
         }
     }
 
-    async createItem<T>(item: T): Promise<T> {
+    async createItem<T extends ItemDefinition>(item: T): Promise<T> {
         try {
             const { resource } = await this.container.items.create(item);
             return resource as T;
@@ -61,9 +62,9 @@ export class CosmosDbService {
         }
     }
 
-    async updateItem<T>(id: string, partitionKey: string, item: T): Promise<T> {
+    async updateItem<T extends ItemDefinition>(id: string, partitionKey: string, item: T): Promise<T> {
         try {
-            const { resource } = await this.container.item(id, partitionKey).replace(item);
+            const { resource } = await this.container.item(id, partitionKey).replace<T>(item);
             return resource as T;
         } catch (error) {
             console.error('Failed to update item:', error);
@@ -81,7 +82,7 @@ export class CosmosDbService {
     }
 }
 
-// Singleton instance for reuse across functions
+// Singleton instance for reuse
 let cosmosDbService: CosmosDbService | null = null;
 
 export function getCosmosDbService(): CosmosDbService {

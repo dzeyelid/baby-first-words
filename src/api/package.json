@@ -12,7 +12,8 @@
   },
   "dependencies": {
     "@azure/functions": "^4.0.0",
-    "@azure/cosmos": "^4.0.0"
+    "@azure/cosmos": "^4.0.0",
+    "baby-first-words-shared": "file:../shared"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",

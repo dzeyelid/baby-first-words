@@ -1,4 +1,5 @@
 import { app, HttpRequest, HttpResponseInit, InvocationContext } from '@azure/functions';
+import { checkDatabaseConnection, checkMemoryUsage } from 'baby-first-words-shared';
 
 export async function healthCheck(request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> {
     context.log('HTTP trigger function processed a request.');
@@ -48,37 +49,6 @@ export async function healthCheck(request: HttpRequest, context: InvocationConte
             })
         };
     }
-}
-
-async function checkDatabaseConnection(): Promise<{ status: string; message: string }> {
-    // Placeholder for Cosmos DB connection check
-    // This will be implemented when Cosmos DB is properly configured
-    const connectionString = process.env.COSMOS_DB_CONNECTION_STRING;
-    
-    if (!connectionString) {
-        return {
-            status: 'warning',
-            message: 'Cosmos DB connection string not configured'
-        };
-    }
-    
-    return {
-        status: 'healthy',
-        message: 'Database connection is ready'
-    };
-}
-
-function checkMemoryUsage(): { used: number; total: number; percentage: number } {
-    const memoryUsage = process.memoryUsage();
-    const totalMemory = memoryUsage.heapTotal;
-    const usedMemory = memoryUsage.heapUsed;
-    const percentage = Math.round((usedMemory / totalMemory) * 100);
-    
-    return {
-        used: usedMemory,
-        total: totalMemory,
-        percentage
-    };
 }
 
 app.http('health', {

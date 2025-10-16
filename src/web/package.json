@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@azure/cosmos": "^4.5.0",
+    "baby-first-words-shared": "file:../shared",
     "nuxt": "^4.0.1",
     "vue": "^3.5.17",
     "vue-router": "^4.5.1"
