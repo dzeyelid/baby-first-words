@@ -35,6 +35,18 @@ GitHub Copilot Coding agentによるAzure開発支援が大幅に向上してい
 
 詳細は[MCP統合ドキュメント](docs/mcp-integration.md)を参照してください。
 
+### GitHub Copilot Custom Instructions
+
+このプロジェクトでは、GitHub Copilotの動作を最適化するためのカスタム指示ファイルを使用しています。これにより、コード生成とコードレビューの両方で一貫性のある高品質な出力が得られます。
+
+**主な機能:**
+- ✅ リポジトリ全体に適用される共通のコーディング規約
+- ✅ `src/api` と `src/web` それぞれに最適化されたpath-specific instructions
+- ✅ Cosmos DB処理など、共通パターンの統一化
+- ✅ GitHub Copilot Code Review専用のガイドライン
+
+詳細は[Copilot Instructions ガイド](docs/copilot-instructions-guide.md)を参照してください。
+
 ### ローカル開発
 
 ローカルで開発する場合は、以下のツールをインストールしてください：
