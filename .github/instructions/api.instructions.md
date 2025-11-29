@@ -17,7 +17,9 @@ applyTo:
 
 ### エラーハンドリング
 - Always wrap external service calls (database, HTTP requests) in try-catch blocks
-- Log errors using the provided `context.log()` method in Azure Functions
+- Log errors using `context.log()` (for function handlers) or `console.error()` (for service classes)
+  - Azure Functions: Use `context.log()` in function handlers to integrate with Application Insights
+  - Service classes: Use `console.error()` for consistency with shared code patterns
 - Use descriptive error messages that include context about what operation failed
 - Rethrow errors after logging when the error should propagate to the caller
 
@@ -27,6 +29,14 @@ applyTo:
 - Avoid callback-based patterns in favor of Promise-based APIs
 
 ## Azure Functions 固有の規約
+
+### ロギング戦略
+- **Function handlers**: Use `context.log()`, `context.error()`, `context.warn()` for logging
+  - Integrates with Application Insights for function-specific telemetry
+  - Associates logs with specific function invocations
+- **Service classes** (e.g., CosmosDbService): Use `console.error()`, `console.log()`
+  - Maintains consistency with shared code patterns between api and web modules
+  - Automatically collected by Application Insights at app-level
 
 ### 関数構成
 - Each function should have a single responsibility

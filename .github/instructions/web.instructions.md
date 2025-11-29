@@ -28,6 +28,12 @@ applyTo:
 
 ## Nuxt 4 / Vue 3 固有の規約
 
+### ロギング戦略
+- **Server API routes and Service classes**: Use `console.log()`, `console.error()`, `console.warn()`
+  - Standard Node.js logging that integrates with Application Insights in Azure Static Web Apps
+  - Maintains consistency with shared service code patterns (e.g., CosmosDbService)
+  - Automatically collected at app-level for monitoring and debugging
+
 ### コンポーネント
 - Use Composition API (`<script setup>`) for all Vue components
 - Use auto-imports for Nuxt composables (useState, useFetch, navigateTo, etc.)
