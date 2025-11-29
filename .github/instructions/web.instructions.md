@@ -30,9 +30,10 @@ applyTo:
 
 ### ロギング戦略
 - **Server API routes and Service classes**: Use `console.log()`, `console.error()`, `console.warn()`
-  - Standard Node.js logging that integrates with Application Insights in Azure Static Web Apps
+  - Standard Node.js logging for Azure Static Web Apps
   - Maintains consistency with shared service code patterns (e.g., CosmosDbService)
-  - Automatically collected at app-level for monitoring and debugging
+  - Can be integrated with Application Insights for monitoring (requires additional configuration)
+  - Automatically collected at app-level for debugging
 
 ### コンポーネント
 - Use Composition API (`<script setup>`) for all Vue components
@@ -59,7 +60,9 @@ applyTo:
 ## データベース（Cosmos DB）の扱い
 
 ### 接続管理
-- Use singleton pattern for database service instances to reuse connections
+- Use singleton pattern for database service instances to reuse connections across requests
+  - Nuxt server maintains warm instances in production environments
+  - Cosmos DB SDK handles connection pooling and thread safety internally
 - Initialize database connections lazily (on first use) not eagerly (at startup)
 - Store connection strings in environment variables, never hardcode them
 - Validate required environment variables and throw clear errors if missing

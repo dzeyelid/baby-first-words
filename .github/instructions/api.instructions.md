@@ -53,7 +53,9 @@ applyTo:
 ## データベース（Cosmos DB）の扱い
 
 ### 接続管理
-- Use singleton pattern for database service instances to reuse connections
+- Use singleton pattern for database service instances to reuse connections across invocations
+  - Azure Functions v4 maintains warm instances, allowing connection reuse
+  - Cosmos DB SDK handles connection pooling and thread safety internally
 - Initialize database connections lazily (on first use) not eagerly (at startup)
 - Store connection strings in environment variables, never hardcode them
 - Validate required environment variables and throw clear errors if missing
