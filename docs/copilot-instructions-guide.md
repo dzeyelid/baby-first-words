@@ -4,21 +4,25 @@
 
 ## 概要
 
-このプロジェクトでは、GitHub Copilotの動作を最適化するために、以下の3種類のカスタム指示ファイルを使用しています：
+このプロジェクトでは、GitHub Copilotの動作を最適化するために、以下の種類のカスタム指示ファイルを使用しています：
 
 1. **Repository-wide instructions** (`.github/copilot-instructions.md`)
-2. **Path-specific instructions** (`.github/instructions/*.instructions.md`)
+2. **共通指示ファイル** (`.github/instructions/common.instructions.md`)
+3. **Path-specific instructions（モジュール固有）** (`.github/instructions/api.instructions.md`, `web.instructions.md`)
+4. **Code Review専用指示ファイル** (`.github/instructions/code-review.instructions.md`)
 
-これらの指示ファイルにより、コード生成とコードレビューの両方で一貫性のある高品質な出力が得られます。
+これらの指示ファイルにより、コード生成とコードレビューの両方で一貫性のある高品質な出力が得られます。また、`excludeAgent` 機能を使用して、Coding AgentとCode Reviewで異なる指示を適用できます。
 
 ## ファイル構成
 
 ```
 .github/
-├── copilot-instructions.md          # リポジトリ全体に適用される指示
+├── copilot-instructions.md          # リポジトリ全体に適用される指示（言語使用、Azure作業ガイドラインなど）
 └── instructions/
-    ├── api.instructions.md          # src/api/ に特化した指示
-    └── web.instructions.md          # src/web/ に特化した指示
+    ├── common.instructions.md       # src/api/ と src/web/ の両方に適用される共通コーディング規約
+    ├── api.instructions.md          # src/api/ に特化した指示（Azure Functions固有）
+    ├── web.instructions.md          # src/web/ に特化した指示（Nuxt/Vue固有）
+    └── code-review.instructions.md  # Code Review専用（excludeAgent: "coding-agent"）
 ```
 
 ## 1. Repository-wide Instructions
@@ -32,28 +36,42 @@
 - **言語使用ガイドライン**: 日本語と英語の使い分けルール
 - **Microsoft公式ドキュメント検索**: MCP統合に関する指示
 - **Microsoft Azure作業ガイドライン**: Azure開発の基本方針
-- **GitHub Copilot Code Reviewガイドライン**: コードレビュー時の確認項目
+- **GitHub Copilot Instructions 構成**: 各指示ファイルの説明
 
-### 主な特徴
+## 2. 共通指示ファイル
 
-#### コードレビューガイドライン
+### ファイル: `.github/instructions/common.instructions.md`
 
-`.github/copilot-instructions.md` には、GitHub Copilot Code Review専用のセクションが含まれています：
+#### 適用範囲
+```yaml
+applyTo:
+  - src/api/**
+  - src/web/**
+```
 
-- **全般的なコード品質**: 明確性、保守性、命名規則
-- **セキュリティ**: 機密情報の保護、入力検証
-- **TypeScript固有**: 型安全性、非同期処理
-- **データベース（Cosmos DB）関連**: 接続管理、CRUD操作の一貫性
-- **Azure Functions固有**: 関数設計、レスポンス形式
-- **Nuxt/Vue固有**: コンポーネント設計、サーバーAPI
-- **パフォーマンス**: リソース効率、最適化
-- **テスタビリティ**: テスト容易性の確保
+#### 含まれる内容
 
-## 2. Path-specific Instructions
+`src/api` と `src/web` の両方に共通する以下のガイドラインを定義：
+
+- **TypeScript コーディング規約**: 型の扱い、エラーハンドリング、非同期処理
+- **データベース（Cosmos DB）の扱い**: 接続管理、CRUD操作、エラーハンドリング
+- **セキュリティ**: 入力検証、機密情報の扱い
+- **パフォーマンス**: リソース効率
+- **テスト**: テスタビリティ
+- **コード品質**: 命名規則、コメント、基本的なファイル構成
+
+#### 重要なポイント
+
+1. **シングルトンパターン**: データベースサービスインスタンスの再利用
+2. **一貫したCRUDメソッド命名**: `createItem`, `getItem`, `queryItems`, `updateItem`, `deleteItem`
+3. **TypeScript generics**: 型安全性の確保 (`async createItem<T>(item: T): Promise<T>`)
+4. **環境変数の検証**: 接続文字列の検証と明確なエラーメッセージ
+
+## 3. Path-specific Instructions（モジュール固有）
 
 ### 概要
 
-Path-specific instructionsは、特定のディレクトリやファイルパターンに対して適用される詳細な指示です。これにより、モジュールごとに最適化されたコーディング規約を提供できます。
+Path-specific instructionsは、特定のディレクトリやファイルパターンに対して適用される詳細な指示です。モジュール固有の規約を定義し、共通指示ファイルの内容を補完します。
 
 ### ファイル: `.github/instructions/api.instructions.md`
 
@@ -63,22 +81,19 @@ applyTo:
   - src/api/**
 ```
 
-#### 含まれる内容
+#### 含まれる内容（Azure Functions 固有）
 
-- **TypeScript コーディング規約**: 型の扱い、エラーハンドリング、非同期処理
-- **Azure Functions 固有の規約**: 関数構成、リクエスト/レスポンス処理
-- **データベース（Cosmos DB）の扱い**: 接続管理、CRUD操作、エラーハンドリング
-- **セキュリティ**: 入力検証、機密情報の扱い
-- **パフォーマンス**: リソース効率
-- **テスト**: テスタビリティ
-- **コード品質**: 命名規則、コメント、ファイル構成
+- **エラーハンドリング**: `context.log()` vs `console.error()` の使い分け
+- **ロギング戦略**: Application Insights統合
+- **関数構成**: authLevel設定、HTTPメソッド指定
+- **リクエスト/レスポンス処理**: HTTPヘッダーとステータスコードの設定
+- **ファイル構成**: `src/functions/` と `src/services/` のディレクトリ構造
 
 #### 重要なポイント
 
-1. **シングルトンパターン**: データベースサービスインスタンスの再利用
-2. **明示的な型注釈**: すべての関数パラメータと戻り値に型を付与
-3. **一貫したエラーハンドリング**: try-catchとロギングの標準化
-4. **環境変数の検証**: 起動時に必須環境変数をチェック
+- Azure Functions v4の機能を活用（warm instances、接続再利用）
+- `context.log()`でApplication Insightsと統合
+- 各関数は`src/functions/`ディレクトリ内に1ファイルで配置
 
 ### ファイル: `.github/instructions/web.instructions.md`
 
@@ -88,24 +103,56 @@ applyTo:
   - src/web/**
 ```
 
-#### 含まれる内容
+#### 含まれる内容（Nuxt 4 / Vue 3 固有）
 
-- **TypeScript コーディング規約**: 型の扱い、エラーハンドリング、非同期処理
-- **Nuxt 4 / Vue 3 固有の規約**: コンポーネント、ルーティング、サーバーAPI、スタイリング
-- **データベース（Cosmos DB）の扱い**: 接続管理、CRUD操作、エラーハンドリング、サービス配置
-- **API エンドポイント設計**: エンドポイント構成、レスポンス形式、ヘルスチェック
-- **セキュリティ**: 入力検証、機密情報の扱い、CSPとセキュリティヘッダー
-- **パフォーマンス**: リソース効率、バンドル最適化
-- **テスト**: テスタビリティ
-- **コード品質**: 命名規則、コメント、ファイル構成
-- **Azure Static Web Apps 固有の規約**: 設定ファイル、デプロイ
+- **ロギング戦略**: `console.log()` の使用（Application Insights統合は追加設定で可能）
+- **コンポーネント**: Composition API、auto-imports
+- **ルーティング**: ファイルベースルーティング
+- **サーバーAPI**: `defineEventHandler()`、`setHeaders()`、`setResponseStatus()`
+- **スタイリング**: Tailwind CSS
+- **セキュリティヘッダー**: CSP設定
+- **パフォーマンス**: バンドル最適化、コード分割
+- **ファイル構成**: `pages/`, `components/`, `composables/`, `services/`
+- **Azure Static Web Apps**: 設定とデプロイ
 
 #### 重要なポイント
 
-1. **Composition API**: すべてのVueコンポーネントで`<script setup>`を使用
-2. **Auto-imports**: Nuxt composablesの自動インポートを活用
-3. **サーバーAPI設計**: `defineEventHandler()`を使った一貫したAPI設計
-4. **シングルトンパターン**: データベースサービスの再利用（src/apiと同様）
+- Composition API (`<script setup>`) の使用を強制
+- Nuxtのauto-importsを活用
+- ファイル名は kebab-case（コンポーネントを除く）
+
+## 4. Code Review専用指示ファイル
+
+### ファイル: `.github/instructions/code-review.instructions.md`
+
+#### 適用範囲と除外設定
+```yaml
+applyTo:
+  - src/**
+excludeAgent: "coding-agent"
+```
+
+この `excludeAgent: "coding-agent"` 設定により、この指示ファイルは**GitHub Copilot Code Reviewのみ**で使用され、Coding Agentには適用されません。
+
+#### 含まれる内容
+
+GitHub Copilot Code Review専用のガイドライン：
+
+- **全般的なコード品質**: 明確性、保守性、命名規則、エラーハンドリング
+- **セキュリティ**: 機密情報の保護、入力検証とサニタイゼーション
+- **TypeScript固有**: 型安全性、非同期処理
+- **データベース（Cosmos DB）関連**: 接続管理、CRUD操作の一貫性
+- **Azure Functions固有**: 関数設計、レスポンス形式
+- **Nuxt/Vue固有**: コンポーネント設計、サーバーAPI
+- **パフォーマンス**: リソース効率、最適化の機会
+- **テスタビリティ**: テスト容易性
+- **コードレビュー重点事項**: 変更の影響範囲、ベストプラクティス、文書化
+
+#### 重要なポイント
+
+1. **Code Review専用**: Coding Agentには影響しない
+2. **包括的なチェック**: コード品質、セキュリティ、パフォーマンス、テスタビリティを網羅
+3. **プロジェクト固有**: Cosmos DB、Azure Functions、Nuxt/Vue の規約を確認
 
 ## Cosmos DB 処理の統一化
 
