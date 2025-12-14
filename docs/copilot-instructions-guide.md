@@ -252,11 +252,18 @@ if (!connectionString) {
 3. モジュール固有のガイドラインを記述
 4. このドキュメントを更新して新しいファイルを説明
 
-### 指示の優先順位
+### 指示の適用について
 
-1. **Path-specific instructions**: 最も具体的で優先度が高い
-2. **Repository-wide instructions**: 全体的なガイドライン
-3. GitHub Copilotのデフォルトの動作
+GitHub Copilotは複数の指示ファイルを組み合わせて解釈します。公式に優先順位は定義されていませんが、以下のように設計しています：
+
+1. **Path-specific instructions**: 特定のパス（例：`src/api/**`）に対する詳細な指示
+2. **Repository-wide instructions**: リポジトリ全体に適用される一般的なガイドライン
+3. **GitHub Copilotのデフォルト動作**: 組み込みの知識とベストプラクティス
+
+**注意**: 複数の指示ファイルで矛盾する内容がある場合、Copilotがどちらを優先するかは明確に定義されていません。矛盾を避けるため、このプロジェクトでは：
+- 共通部分を `common.instructions.md` に集約
+- モジュール固有の内容のみをpath-specific instructionsに記載
+- Code Review専用の指示は `excludeAgent: "coding-agent"` で分離
 
 ## トラブルシューティング
 
