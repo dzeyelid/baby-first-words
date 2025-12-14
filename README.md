@@ -5,18 +5,6 @@
 - GitHub Codespaces またはVisual Studio Codeなどdevcontainerを利用できる環境
 - Azureサブスクリプション
 
-## MCPサーバーテスト結果
-
-このリポジトリではMicrosoft Docs MCPサーバーを設定し、その機能をテストしました。詳細な結果は [`docs/mcp-server-test-results.md`](./docs/mcp-server-test-results.md) をご覧ください。
-
-**主要な成果:**
-- ✅ MCPサーバーが正常に動作確認済み
-- ✅ Azure/Bicep関連の質問に高品質で回答
-- ✅ 9つのテストケースすべてで優秀な結果
-- ✅ 総合評価: 95%
-
-GitHub Copilot Coding agentによるAzure開発支援が大幅に向上しています。
-
 ## セットアップ
 
 ### GitHub Codespacesでの開発
@@ -27,13 +15,7 @@ GitHub Copilot Coding agentによるAzure開発支援が大幅に向上してい
 - Azure Developer CLI (azd)
 - Azure CLI（Bicep拡張機能付き）
 - VS Code拡張機能（Bicep、Azure Developer CLI）
-- GitHub Copilot（Microsoft Docs MCP Server統合付き）
-
-### Microsoft Docs MCP Server統合
-
-このプロジェクトには、GitHub Copilot Coding Agentに[Microsoft Docs MCP Server](https://github.com/MicrosoftDocs/mcp)が統合されています。これにより、Copilotが公式のMicrosoft ドキュメントにリアルタイムでアクセスできるようになります。
-
-詳細は[MCP統合ドキュメント](docs/mcp-integration.md)を参照してください。
+- GitHub Copilot
 
 ### GitHub Copilot Custom Instructions
 
@@ -190,11 +172,3 @@ azd up
 
 インフラの検証・トラブルシューティング手順も [infra/README.md](infra/README.md) にまとめています。
 必要なツールの検証スクリプト（`./validate-environment.sh`）や、デプロイ後のリソース確認コマンド例もそちらを参照してください。
-
-
-## 追加ファイル・MCP統合
-
-MCP統合に関連するファイルや詳細は以下を参照してください：
-- `.vscode/mcp.json` - VS Code用のMCP設定
-- `docs/mcp-integration.md` - MCP統合の詳細ドキュメント
-- `docs/mcp-demo.md` - MCP統合のデモとテスト用クエリ
