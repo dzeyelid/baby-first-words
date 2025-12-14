@@ -73,3 +73,21 @@ function recordFirstWord(word, timestamp) {
 - [Azure Bicep Best Practices](https://learn.microsoft.com/azure/azure-resource-manager/bicep/best-practices)
 - [What is Azure Static Web Apps?](https://learn.microsoft.com/azure/static-web-apps/overview)
 - [Azure Functions Best Practices](https://learn.microsoft.com/azure/azure-functions/functions-best-practices)
+
+---
+
+## GitHub Copilot Instructions 構成
+
+このリポジトリでは、GitHub Copilot Coding AgentとCode Reviewの動作を最適化するため、以下の指示ファイルを使用しています：
+
+### 共通指示ファイル
+- **`.github/instructions/common.instructions.md`**: `src/api/` と `src/web/` の両方に適用される共通のコーディング規約（TypeScript、Cosmos DB、セキュリティ、テストなど）
+
+### Path-Specific Instructions（モジュール固有）
+- **`.github/instructions/api.instructions.md`**: `src/api/` 配下のAzure Functions APIコード固有の規約
+- **`.github/instructions/web.instructions.md`**: `src/web/` 配下のNuxt/Vueアプリケーションコード固有の規約
+
+### Code Review専用指示ファイル
+- **`.github/instructions/code-review.instructions.md`**: GitHub Copilot Code Review専用のガイドライン（`excludeAgent: "coding-agent"` を使用してCoding Agentには適用されません）
+
+詳細は [Copilot Instructions ガイド](docs/copilot-instructions-guide.md) を参照してください。
